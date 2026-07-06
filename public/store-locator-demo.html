@@ -314,12 +314,12 @@
         <div class="map-label">Near me features</div>
         <div id="location-card" class="location-card">
           <h3>Your location</h3>
-          <div id="location-address" class="address">Eppendorfer Baum 22, 20249 Hamburg</div>
-          <div id="location-coords" class="coords">53.593 · 9.987 · Europe/Berlin</div>
+          <div id="location-address" class="address">Friedrichstraße 43, 10117 Berlin, Germany</div>
+          <div id="location-coords" class="coords">52.520 · 13.405 · Europe/Berlin</div>
         </div>
-        <div id="map-pin" class="map-pin" style="left: 58%; top: 34%"></div>
+        <div id="map-pin" class="map-pin" style="left: 52%; top: 38%"></div>
         <div id="sensors-pill" class="sensors-pill">
-          DevTools Sensors · <span id="sensors-value">Paris override active</span>
+          DevTools Sensors · <span id="sensors-value">Location override pending</span>
         </div>
       </section>
     </div>
@@ -347,10 +347,10 @@
       }
 
       const LOCATIONS = {
-        hamburg: {
-          address: "Eppendorfer Baum 22, 20249 Hamburg",
-          coords: "53.593 · 9.987 · Europe/Berlin",
-          pin: { left: "58%", top: "34%" },
+        berlin: {
+          address: "Friedrichstraße 43, 10117 Berlin, Germany",
+          coords: "52.520 · 13.405 · Europe/Berlin",
+          pin: { left: "52%", top: "38%" },
         },
         paris: {
           address: "1 Rue de Rivoli, 75004 Paris",
@@ -427,6 +427,7 @@
         }
         if (city.includes("berlin")) {
           renderStores(STORES.berlin)
+          setMapLocation("berlin")
           setStatus("✓ Store found in Berlin.", "success")
           return
         }
@@ -444,6 +445,7 @@
         if (key !== "paris") return
         setMapLocation("paris")
         renderNearMe(STORES.paris)
+        document.getElementById("sensors-value").textContent = "Paris override active"
         sensorsPill.classList.add("visible")
         setStatus("✓ Paris location emulated · UI updated · near-me stores listed.", "success")
       }

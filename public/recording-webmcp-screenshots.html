@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebMCP Screenshot Capture</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .player-viewport {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      #player {
+        width: 1920px;
+        height: 1080px;
+      }
+
+      #player iframe {
+        width: 100% !important;
+        height: 100% !important;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="player-viewport">
+      <div id="player"></div>
+    </div>
+    <script>
+      const VIDEO_ID = "wBNCPp5gdqg"
+
+      window.onYouTubeIframeAPIReady = () => {
+        window.player = new YT.Player("player", {
+          width: 1920,
+          height: 1080,
+          videoId: VIDEO_ID,
+          host: "https://www.youtube-nocookie.com",
+          playerVars: {
+            autoplay: 0,
+            controls: 0,
+            modestbranding: 1,
+            rel: 0,
+            iv_load_policy: 3,
+            cc_load_policy: 0,
+            playsinline: 1,
+            fs: 0,
+            disablekb: 1,
+            origin: window.location.origin,
+          },
+          events: {
+            onReady: () => {
+              window.__captureReady = true
+            },
+          },
+        })
+      }
+
+      window.seekAndPause = (seconds) =>
+        new Promise((resolve) => {
+          window.player.seekTo(seconds, true)
+          window.player.pauseVideo()
+          setTimeout(resolve, 1800)
+        })
+
+      const tag = document.createElement("script")
+      tag.src = "https://www.youtube.com/iframe_api"
+      document.head.appendChild(tag)
+    </script>
+  </body>
+</html>

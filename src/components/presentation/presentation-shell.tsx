@@ -30,6 +30,7 @@ import { DebugEvolutionSlide } from "./slides/debug-evolution-slide"
 import { EvolutionSlide } from "./slides/evolution-slide"
 import { TalkOverviewSlide } from "./slides/talk-overview-slide"
 import { ThankYouSlide } from "./slides/thank-you-slide"
+import { WebMcpFlagsSlide, WebMcpSlide } from "./slides/webmcp-slide"
 import { openerMemes } from "@/data/presentation"
 
 const memeSlides = openerMemes.map((meme, index) => ({
@@ -108,6 +109,8 @@ const slides = [
     label: "Debugging Demo",
     component: DebuggingVideoSlide,
   },
+  { id: "webmcp", label: "WebMCP", component: WebMcpSlide },
+  { id: "webmcp-flags", label: "WebMCP Flags", component: WebMcpFlagsSlide },
   { id: "thank-you", label: "Thank you", component: ThankYouSlide },
 ]
 

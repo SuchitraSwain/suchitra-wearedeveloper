@@ -4,6 +4,7 @@ import { BulletList } from "../bullet-list"
 import { DevToolsSensorsMock } from "../devtools-sensors-mock"
 import { PresentationSlide } from "../presentation-slide"
 import { SlideLabel } from "../slide-label"
+import { SlideTalkTrack } from "../slide-talk-track"
 
 export function EmulateCapabilitiesSlide() {
   return (
@@ -17,6 +18,7 @@ export function EmulateCapabilitiesSlide() {
           </h1>
           <p className="slide-body text-white/50">{emulateCapabilitiesSlide.subtitle}</p>
           <BulletList items={emulateCapabilitiesSlide.explain} />
+          <SlideTalkTrack lines={emulateCapabilitiesSlide.talkTrack} />
 
           <p className="slide-body-sm border-t border-white/10 pt-4 text-white/40">
             {emulateCapabilitiesSlide.sensorsNote}

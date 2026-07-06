@@ -4,6 +4,7 @@ import { BulletList } from "../bullet-list"
 import { DevToolsDeviceToolbarMock } from "../devtools-device-toolbar-mock"
 import { PresentationSlide } from "../presentation-slide"
 import { SlideLabel } from "../slide-label"
+import { SlideTalkTrack } from "../slide-talk-track"
 
 export function EmulateDevicesSlide() {
   return (
@@ -17,6 +18,7 @@ export function EmulateDevicesSlide() {
           </h1>
           <p className="slide-body text-white/50">{emulateDevicesSlide.subtitle}</p>
           <BulletList items={emulateDevicesSlide.explain} />
+          <SlideTalkTrack lines={emulateDevicesSlide.talkTrack} />
 
           <div className="space-y-3 border-t border-white/10 pt-4">
             {emulateDevicesSlide.prompts.map((prompt) => (

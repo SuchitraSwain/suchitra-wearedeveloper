@@ -3,6 +3,7 @@ import { emulateDevicesVideoSlide } from "@/data/presentation"
 import { BulletList } from "../bullet-list"
 import { PresentationSlide } from "../presentation-slide"
 import { SlideLabel } from "../slide-label"
+import { SlideTalkTrack } from "../slide-talk-track"
 import { SlideVideo } from "../slide-video"
 
 export function EmulateDevicesVideoSlide() {
@@ -16,6 +17,7 @@ export function EmulateDevicesVideoSlide() {
           </h1>
           <p className="slide-body text-white/50">{emulateDevicesVideoSlide.subtitle}</p>
           <BulletList items={emulateDevicesVideoSlide.steps} />
+          <SlideTalkTrack lines={emulateDevicesVideoSlide.talkTrack} />
         </div>
 
         <div className="slide-split-video-panel">

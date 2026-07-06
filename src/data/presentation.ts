@@ -383,6 +383,12 @@ export const emulateCapabilitiesSlide = {
     "Developers manually override location in the Sensors panel in Chrome DevTools.",
     "With Cursor Agent + chrome-devtools-mcp, the agent calls emulate() on your real Chrome.",
   ],
+  talkTrack: [
+    "Emulation in DevTools MCP covers viewport, user agent, location, CPU throttling, and network speed — so your agent tests like a real user.",
+    "Use case one: Near Me — delivery zones, store locators, local currency. Same as the Sensors panel, but your agent drives it.",
+    "Prompt: search Berlin, confirm no store in Washington, emulate Paris, verify stores appear — all autonomously.",
+    "Add 'fix all bugs you encounter' for a closed feedback loop — test and fix without manual resizing.",
+  ],
   sensorsNote:
     "With the Sensors panel in Chrome DevTools — then Cursor Agent automates the same via emulate().",
 } as const
@@ -395,6 +401,11 @@ export const emulateVideoSlide = {
     "2 · Berlin store found · Washington returns empty",
     "3 · emulate(Paris) in DevTools Sensors panel",
     "4 · Map pin & near-me list update · task complete",
+  ],
+  talkTrack: [
+    "Watch the agent open real Chrome, run the city searches, then call emulate() to set Paris in Sensors.",
+    "The map pin and store list update live — same geolocation API your users hit, not a mock.",
+    "One prompt, one real browser, zero manual DevTools tab switching.",
   ],
   video: {
     src: "/devtools-emulate-demo.webm",
@@ -412,6 +423,12 @@ export const emulateDevicesSlide = {
     "DevTools MCP emulate() sets viewport, user agent, and touch — same as the device toolbar.",
     "Cursor Agent audits your live site across breakpoints: nav, hero, overflow, key CTAs.",
     "Live example: suchitra-swain.web.app audited in real Chrome on port 9223.",
+  ],
+  talkTrack: [
+    "Use case two: responsive navigation — burger menu on mobile, full nav on desktop. Let the agent compare links across viewports.",
+    "Use case three: interaction bugs — things break only when you actually use them, not just by looking.",
+    "Example: on mobile, tablet, and desktop — type in search and check Sign in stays visible. On tablet and mobile, the expanding search bar hid it.",
+    "Navigation + input automation + emulation + screenshots — fully automated cross-viewport testing.",
   ],
   prompts: [
     {
@@ -431,11 +448,58 @@ export const emulateDevicesVideoSlide = {
     "3 · Tablet → desktop · nav links + overflow check",
     "4 · Real screenshots injected · task complete",
   ],
+  talkTrack: [
+    "Here the agent emulates mobile, tablet, and desktop on my live portfolio — real Chrome, real site.",
+    "It checks hero visibility, navigation, and horizontal overflow at each breakpoint.",
+    "Your agent doesn't speculate how responsive code works — it observes it in Chrome.",
+  ],
   video: {
     src: "/devtools-emulate-devices-demo.webm",
     poster: "/devtools-emulate-devices-demo-poster.png",
     caption:
       "Real Chrome tab → emulate viewports via CDP → responsive audit on suchitra-swain.web.app.",
+  },
+} as const
+
+export const webMcpSlide = {
+  title: "WebMCP",
+  subtitle:
+    "A proposed web standard — websites expose specialized tools directly to visiting AI agents.",
+  explain: [
+    "Proposed web standard",
+    "Enables agents to use websites through specialized tools",
+    "Experimental support in Chrome",
+    "Debugging support in DevTools",
+  ],
+  talkTrack: [
+    "WebMCP lets your site register tools at runtime — search, book, filter — that visiting AI agents can call directly.",
+    "Debug them in DevTools → Application panel → WebMCP: list tools, track live agent invocations, and run tools manually.",
+    "Filter call history by status — Completed, Error, Canceled — and inspect inputs like {\"query\":\"paris\"}.",
+  ],
+  image: {
+    src: "/webmcp-application-panel.png",
+    alt: "Debug WebMCP in DevTools Application panel — filter by status and inspect tool call inputs",
+    caption: "Application → WebMCP · What's New in DevTools 148–150",
+  },
+} as const
+
+export const webMcpFlagsSlide = {
+  title: "Enable WebMCP flags",
+  subtitle: "Both WebMCP and its DevTools debugging are still experimental.",
+  explain: [
+    "chrome://flags → search WebMCP",
+    "#devtools-webmcp-support — DevTools panel",
+    "#enable-webmcp-testing — WebMCP API",
+  ],
+  talkTrack: [
+    "Enable two flags in chrome://flags before you can debug WebMCP in DevTools.",
+    "WebMCP support in DevTools — adds the Application panel debugger you just saw.",
+    "WebMCP for testing — enables the WebMCP API and testing interfaces on your site.",
+  ],
+  image: {
+    src: "/webmcp-chrome-flags-hd.png",
+    alt: "Enable WebMCP support in DevTools and WebMCP for testing in chrome://flags",
+    caption: "chrome://flags · #devtools-webmcp-support · #enable-webmcp-testing",
   },
 } as const
 
