@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "deploy:preview": "npm run build && firebase hosting:channel:deploy preview --expires 7d",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
@@ -48,6 +50,7 @@
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "playwright": "^1.52.0",
+    "firebase-tools": "^15.22.4",
     "typescript": "~6",
     "typescript-eslint": "^8",
     "vite": "^8"

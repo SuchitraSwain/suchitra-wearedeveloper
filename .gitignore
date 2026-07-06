@@ -25,3 +25,6 @@ dist-ssr
 
 # Playwright demo recordings (temp)
 public/.recordings
+
+# Firebase
+.firebase
