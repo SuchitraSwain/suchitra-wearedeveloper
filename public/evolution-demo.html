@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Frontend Evolution — Then vs Now</title>
+    <style>
+      :root {
+        --bg: #0b0e14;
+        --panel: #141820;
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #e8eaed;
+        --muted: #9aa0a6;
+        --pink: #ff174d;
+        --purple: #7c3aed;
+        --blue: #3794ff;
+        --green: #3fb950;
+        --mono: ui-monospace, "SF Mono", Menlo, monospace;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+      }
+
+      .evolution-root {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 24px 28px 20px;
+        background:
+          radial-gradient(ellipse 80% 50% at 20% 0%, rgba(255, 23, 77, 0.08), transparent),
+          radial-gradient(ellipse 70% 45% at 80% 100%, rgba(124, 58, 237, 0.1), transparent),
+          var(--bg);
+      }
+
+      .hero {
+        text-align: center;
+        margin-bottom: 16px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin-bottom: 6px;
+      }
+
+      .hero p {
+        font-size: 15px;
+        color: var(--muted);
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 56px 1fr;
+        gap: 0;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: var(--pink);
+        opacity: 0;
+        animation: fade-in 0.6s ease 4s forwards;
+      }
+
+      .panel {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      .panel.then {
+        animation: panel-in 0.7s ease 0.2s forwards;
+      }
+
+      .panel.now {
+        animation: panel-in 0.7s ease 4.5s forwards;
+      }
+
+      @keyframes panel-in {
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes fade-in {
+        to { opacity: 1; }
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .badge {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 5px 10px;
+        border-radius: 999px;
+      }
+
+      .badge.then { background: rgba(255, 255, 255, 0.08); color: var(--muted); }
+      .badge.now { background: rgba(124, 58, 237, 0.2); color: #c4b5fd; }
+
+      .panel-title { font-size: 14px; font-weight: 600; }
+
+      .panel-body { flex: 1; min-height: 0; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+      /* Old IDE */
+      .old-ide {
+        flex: 1;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #1e1e1e;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .old-tabs {
+        display: flex;
+        gap: 2px;
+        padding: 8px 10px 0;
+        background: #252526;
+        border-bottom: 1px solid #333;
+      }
+
+      .old-tab {
+        padding: 6px 14px;
+        font-size: 11px;
+        color: var(--muted);
+        background: #2d2d2d;
+        border-radius: 6px 6px 0 0;
+      }
+
+      .old-tab.active { background: #1e1e1e; color: var(--text); }
+
+      .old-code {
+        flex: 1;
+        padding: 16px;
+        font-family: var(--mono);
+        font-size: 13px;
+        line-height: 1.65;
+        color: #d4d4d4;
+        white-space: pre-wrap;
+      }
+
+      .old-code .kw { color: #569cd6; }
+      .old-code .fn { color: #dcdcaa; }
+      .old-code .str { color: #ce9178; }
+      .old-code .tag { color: #808080; }
+      .old-code .cursor {
+        display: inline-block;
+        width: 2px;
+        height: 1em;
+        background: #fff;
+        vertical-align: text-bottom;
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink { 50% { opacity: 0; } }
+
+      .typing-line { opacity: 0; }
+      .typing-line.show { opacity: 1; }
+
+      .old-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        font-size: 11px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        opacity: 0;
+      }
+
+      .chip.show { animation: chip-in 0.4s ease forwards; }
+
+      @keyframes chip-in {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* AI panel */
+      .ai-layout {
+        flex: 1;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 10px;
+        min-height: 0;
+      }
+
+      .prompt-box {
+        border-radius: 10px;
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        background: rgba(124, 58, 237, 0.08);
+        padding: 12px 14px;
+        font-size: 13px;
+        line-height: 1.5;
+        min-height: 72px;
+      }
+
+      .prompt-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #c4b5fd;
+        margin-bottom: 6px;
+      }
+
+      .agent-thread {
+        flex: 1;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #0d1017;
+        padding: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .thinking {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: #c4b5fd;
+        opacity: 0;
+      }
+
+      .thinking.show { animation: chip-in 0.4s ease forwards; }
+
+      .thinking-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #a78bfa;
+        animation: pulse 1s ease infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+      }
+
+      .gen-code {
+        font-family: var(--mono);
+        font-size: 11px;
+        line-height: 1.55;
+        color: #d4d4d4;
+        border-radius: 8px;
+        border: 1px solid rgba(63, 185, 80, 0.3);
+        background: rgba(63, 185, 80, 0.06);
+        padding: 10px 12px;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+      }
+
+      .gen-code.show {
+        animation: code-expand 0.8s ease forwards;
+      }
+
+      @keyframes code-expand {
+        to { opacity: 1; max-height: 280px; }
+      }
+
+      .complete {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--green);
+        opacity: 0;
+      }
+
+      .complete.show { animation: chip-in 0.4s ease forwards; }
+
+      .footer-tag {
+        text-align: center;
+        margin-top: 28px;
+        font-size: 15px;
+        color: var(--muted);
+        opacity: 0;
+        animation: fade-in 0.6s ease 18s forwards;
+      }
+
+      .footer-tag strong {
+        color: var(--pink);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="evolution-root">
+      <header class="hero">
+        <h1>The evolution of React &amp; frontend development</h1>
+        <p>From typing every line yourself → prompting an AI agent</p>
+      </header>
+
+      <div class="split">
+        <section class="panel then">
+          <div class="panel-head">
+            <span class="badge then">Then</span>
+            <span class="panel-title">Developer · line by line</span>
+          </div>
+          <div class="panel-body">
+            <div class="old-ide">
+              <div class="old-tabs">
+                <span class="old-tab active">Button.tsx</span>
+                <span class="old-tab">App.tsx</span>
+              </div>
+              <pre class="old-code" id="old-code"><span class="tag">// typing manually… one keystroke at a time</span>
+</pre>
+            </div>
+            <div class="old-meta">
+              <span class="chip" id="chip-1">Stack Overflow</span>
+              <span class="chip" id="chip-2">Copy-paste snippets</span>
+              <span class="chip" id="chip-3">Hours per component</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider" aria-hidden="true">→</div>
+
+        <section class="panel now">
+          <div class="panel-head">
+            <span class="badge now">Now</span>
+            <span class="panel-title">Cursor Agent · prompt → code</span>
+          </div>
+          <div class="panel-body">
+            <div class="ai-layout">
+              <div class="prompt-box">
+                <div class="prompt-label">You</div>
+                <div id="prompt-text"></div>
+              </div>
+              <div class="agent-thread">
+                <div class="thinking" id="thinking">
+                  <span class="thinking-dot"></span>
+                  Planning component structure…
+                </div>
+                <pre class="gen-code" id="gen-code"><span class="kw">export function</span> <span class="fn">RegisterButton</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="fn">button</span> <span class="str">className</span>="<span class="str">btn-primary</span>"&gt;
+      Register interest
+    &lt;/<span class="fn">button</span>&gt;
+  );
+}</pre>
+                <div class="complete" id="complete">✓ Component ready · tests suggested · PR opened</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <p class="footer-tag">
+        <strong>Prompt</strong> → Render → Debug — the modern React workflow
+      </p>
+    </div>
+
+    <script>
+      const lines = [
+        '<span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">"react"</span>;',
+        '',
+        '<span class="kw">export function</span> <span class="fn">Button</span>() {',
+        '  <span class="kw">const</span> [loading, setLoading] = useState(<span class="kw">false</span>);',
+        '  <span class="kw">return</span> (',
+        '    &lt;<span class="fn">button</span> disabled={loading}&gt;Submit&lt;/<span class="fn">button</span>&gt;',
+        '  );',
+        '}',
+      ]
+
+      const oldCode = document.getElementById('old-code')
+      const promptText = document.getElementById('prompt-text')
+      const promptFull =
+        'Create a React button component with loading state, TypeScript, and Tailwind styling for a registration form.'
+
+      function wait(ms) {
+        return new Promise((r) => setTimeout(r, ms))
+      }
+
+      async function typeOldCode() {
+        let html = '<span class="tag">// typing manually… one keystroke at a time</span>\n'
+        oldCode.innerHTML = html + '<span class="cursor"></span>'
+
+        for (let i = 0; i < lines.length; i++) {
+          await wait(i === 0 ? 400 : 520)
+          html += (i > 0 ? '\n' : '') + lines[i]
+          oldCode.innerHTML = html + '\n<span class="cursor"></span>'
+        }
+
+        await wait(400)
+        document.getElementById('chip-1').classList.add('show')
+        await wait(300)
+        document.getElementById('chip-2').classList.add('show')
+        await wait(300)
+        document.getElementById('chip-3').classList.add('show')
+      }
+
+      async function typePrompt() {
+        for (let i = 0; i <= promptFull.length; i++) {
+          promptText.textContent = promptFull.slice(0, i)
+          await wait(14)
+        }
+      }
+
+      async function runNow() {
+        await wait(500)
+        await typePrompt()
+        await wait(600)
+        document.getElementById('thinking').classList.add('show')
+        await wait(1200)
+        document.getElementById('gen-code').classList.add('show')
+        await wait(1400)
+        document.getElementById('complete').classList.add('show')
+      }
+
+      async function run() {
+        window.__evolutionReady = false
+        await typeOldCode()
+        await runNow()
+        window.__evolutionReady = true
+        await wait(2500)
+      }
+
+      run()
+    </script>
+  </body>
+</html>

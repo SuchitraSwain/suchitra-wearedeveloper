@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chrome for Developers</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: "Google Sans", "Geist Variable", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #fff;
+        color: #202124;
+        min-height: 100vh;
+      }
+
+      .site-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-bottom: 1px solid #e8eaed;
+        background: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .logo-mark {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: conic-gradient(from 180deg, #4285f4, #34a853, #fbbc05, #ea4335, #4285f4);
+      }
+
+      .desktop-nav {
+        display: none;
+        align-items: center;
+        gap: 4px;
+        margin-left: 8px;
+      }
+
+      .desktop-nav a {
+        padding: 8px 12px;
+        font-size: 13px;
+        color: #5f6368;
+        text-decoration: none;
+        border-radius: 8px;
+      }
+
+      .desktop-nav a:hover { background: #f1f3f4; color: #202124; }
+
+      .header-spacer { flex: 1; }
+
+      .search-wrap {
+        position: relative;
+        flex: 1;
+        max-width: 420px;
+      }
+
+      #site-search {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #dadce0;
+        border-radius: 999px;
+        padding: 0 16px 0 40px;
+        font-size: 14px;
+        outline: none;
+        background: #f8f9fa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%235f6368' viewBox='0 0 16 16'%3E%3Cpath d='M11.7 10.3l3.2 3.2-1.4 1.4-3.2-3.2a5.5 5.5 0 1 1 1.4-1.4zM6 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'/%3E%3C/svg%3E") 14px center no-repeat;
+      }
+
+      #site-search:focus {
+        border-color: #4285f4;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.18);
+      }
+
+      .typeahead {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #dadce0;
+        border-radius: 12px;
+        box-shadow: 0 8px 28px rgba(60, 64, 67, 0.18);
+        overflow: hidden;
+        display: none;
+        z-index: 20;
+      }
+
+      .typeahead.visible { display: block; }
+
+      .typeahead-item {
+        padding: 10px 14px;
+        font-size: 13px;
+        border-bottom: 1px solid #f1f3f4;
+        color: #202124;
+      }
+
+      .typeahead-item:last-child { border-bottom: 0; }
+
+      .typeahead-item mark {
+        background: rgba(66, 133, 244, 0.15);
+        color: #174ea6;
+        font-weight: 500;
+      }
+
+      #sign-in-btn {
+        flex-shrink: 0;
+        height: 36px;
+        padding: 0 16px;
+        border: 1px solid #dadce0;
+        border-radius: 999px;
+        background: #fff;
+        font-size: 13px;
+        font-weight: 500;
+        color: #1a73e8;
+        cursor: pointer;
+      }
+
+      #burger-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      #burger-btn span {
+        display: block;
+        height: 2px;
+        background: #5f6368;
+        border-radius: 1px;
+      }
+
+      #burger-btn:hover { background: #f1f3f4; }
+
+      .mobile-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e8eaed;
+        box-shadow: 0 8px 24px rgba(60, 64, 67, 0.12);
+        z-index: 15;
+      }
+
+      .mobile-menu.open { display: block; }
+
+      .mobile-menu a {
+        display: block;
+        padding: 14px 20px;
+        font-size: 14px;
+        color: #202124;
+        text-decoration: none;
+        border-bottom: 1px solid #f1f3f4;
+      }
+
+      .mobile-menu a:last-child { border-bottom: 0; }
+
+      .hero {
+        padding: 32px 20px 24px;
+        max-width: 720px;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        font-weight: 400;
+        line-height: 1.25;
+        margin-bottom: 10px;
+      }
+
+      .hero p {
+        color: #5f6368;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .device-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: #e8f0fe;
+        color: #174ea6;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .nav-audit {
+        margin: 0 20px 20px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid #ceead6;
+        background: #e6f4ea;
+        color: #137333;
+        font-size: 12px;
+        display: none;
+      }
+
+      .nav-audit.visible { display: block; }
+
+      /* Device modes */
+      body.device-mobile .desktop-nav { display: none !important; }
+      body.device-mobile #burger-btn { display: flex; }
+      body.device-mobile .search-wrap { max-width: none; }
+
+      body.device-tablet .desktop-nav { display: none !important; }
+      body.device-tablet #burger-btn { display: flex; }
+
+      body.device-desktop #burger-btn { display: none; }
+      body.device-desktop .desktop-nav { display: flex; }
+      body.device-desktop .mobile-menu { display: none !important; }
+
+      body.device-mobile .device-badge::after { content: "Mobile · 390×844"; }
+      body.device-tablet .device-badge::after { content: "Tablet · 768×1024"; }
+      body.device-desktop .device-badge::after { content: "Desktop · 1280×800"; }
+
+      .embed .hero { padding-top: 20px; }
+      .embed .hero h1 { font-size: 1.35rem; }
+    </style>
+  </head>
+  <body class="device-desktop">
+    <header class="site-header">
+      <div class="logo">
+        <div class="logo-mark" aria-hidden="true"></div>
+        <span>Chrome for Developers</span>
+      </div>
+
+      <nav class="desktop-nav" id="desktop-nav" aria-label="Main">
+        <a href="#">Docs</a>
+        <a href="#">Case studies</a>
+        <a href="#">Blog</a>
+        <a href="#">New in Chrome</a>
+      </nav>
+
+      <div class="header-spacer"></div>
+
+      <div class="search-wrap">
+        <input
+          id="site-search"
+          type="search"
+          placeholder="Search Chrome for Developers"
+          autocomplete="off"
+        />
+        <div id="typeahead" class="typeahead" role="listbox"></div>
+      </div>
+
+      <button id="sign-in-btn" type="button">Sign in</button>
+
+      <button id="burger-btn" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile">
+        <a href="#" data-nav="Docs">Docs</a>
+        <a href="#" data-nav="Case studies">Case studies</a>
+        <a href="#" data-nav="Blog">Blog</a>
+        <a href="#" data-nav="New in Chrome">New in Chrome</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Build with Chrome DevTools &amp; the web platform</h1>
+        <p>Documentation, case studies, and tooling for modern web developers.</p>
+        <div class="device-badge">Emulated viewport · </div>
+      </section>
+      <div id="nav-audit" class="nav-audit">
+        ✓ Mobile burger menu items match desktop navigation: Docs, Case studies, Blog, New in Chrome
+      </div>
+    </main>
+
+    <script>
+      const NAV_ITEMS = ["Docs", "Case studies", "Blog", "New in Chrome"]
+      const SUGGESTIONS = [
+        "DevTools MCP server",
+        "DevTools documentation",
+        "Chrome DevTools Protocol",
+        "Performance panel guide",
+      ]
+
+      if (new URLSearchParams(location.search).get("embed") === "1") {
+        document.documentElement.classList.add("embed")
+      }
+
+      const searchInput = document.getElementById("site-search")
+      const typeahead = document.getElementById("typeahead")
+      const burgerBtn = document.getElementById("burger-btn")
+      const mobileMenu = document.getElementById("mobile-menu")
+      const navAudit = document.getElementById("nav-audit")
+
+      function renderTypeahead(query) {
+        const q = query.trim().toLowerCase()
+        if (!q) {
+          typeahead.classList.remove("visible")
+          typeahead.innerHTML = ""
+          return
+        }
+        const matches = SUGGESTIONS.filter((s) => s.toLowerCase().includes(q)).slice(0, 4)
+        if (!matches.length) {
+          typeahead.classList.remove("visible")
+          return
+        }
+        typeahead.innerHTML = matches
+          .map((item) => {
+            const highlighted = item.replace(
+              new RegExp(`(${query.trim()})`, "ig"),
+              "<mark>$1</mark>"
+            )
+            return `<div class="typeahead-item" role="option">${highlighted}</div>`
+          })
+          .join("")
+        typeahead.classList.add("visible")
+      }
+
+      searchInput.addEventListener("input", () => renderTypeahead(searchInput.value))
+
+      burgerBtn.addEventListener("click", () => {
+        const open = mobileMenu.classList.toggle("open")
+        burgerBtn.setAttribute("aria-expanded", String(open))
+      })
+
+      window.__setDevice = (device) => {
+        document.body.classList.remove("device-mobile", "device-tablet", "device-desktop")
+        document.body.classList.add(`device-${device}`)
+        mobileMenu.classList.remove("open")
+        burgerBtn.setAttribute("aria-expanded", "false")
+        searchInput.value = ""
+        typeahead.classList.remove("visible")
+      }
+
+      window.__openBurgerMenu = () => {
+        mobileMenu.classList.add("open")
+        burgerBtn.setAttribute("aria-expanded", "true")
+      }
+
+      window.__showNavAudit = () => {
+        navAudit.classList.add("visible")
+      }
+
+      window.__getNavItems = () => NAV_ITEMS
+    </script>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DevTools MCP Demo Recording</title>
+    <link rel="stylesheet" href="/recording-cursor-ui.css" />
+  </head>
+  <body class="recording-root">
+    <div class="ide-window">
+      <header class="ide-titlebar">
+        <div class="traffic-lights">
+          <span class="close"></span>
+          <span class="minimize"></span>
+          <span class="maximize"></span>
+        </div>
+        <div class="ide-title">
+          <strong>wearedevelopers-presentation</strong> — Cursor
+        </div>
+      </header>
+
+      <div class="ide-workspace">
+        <nav class="ide-activity-bar" aria-hidden="true">
+          <span class="activity-icon">⌂</span>
+          <span class="activity-icon active">◇</span>
+          <span class="activity-icon">⌕</span>
+          <span class="activity-spacer"></span>
+          <span class="activity-icon">⚙</span>
+        </nav>
+
+        <aside class="ide-sidebar">
+          <div class="sidebar-header">Explorer</div>
+          <div class="file-tree">
+            <div class="file-item"><span class="file-icon">▾</span> wearedevelopers-presentation</div>
+            <div class="file-item nested"><span class="file-icon">▸</span> .cursor</div>
+            <div class="file-item nested active"><span class="file-icon">{ }</span> mcp.json</div>
+            <div class="file-item nested"><span class="file-icon">▸</span> public</div>
+            <div class="file-item nested"><span class="file-icon">▸</span> src</div>
+          </div>
+        </aside>
+
+        <section class="browser-panel">
+          <div class="browser-panel-header">
+            <span class="browser-panel-title">Chrome · controlled by MCP</span>
+            <span class="browser-mcp-pill">Live browser</span>
+          </div>
+          <div class="browser-stage">
+            <div class="chrome-window" id="chrome-window">
+              <div class="chrome-toolbar">
+                <div class="dots">
+                  <span class="dot dot-r"></span>
+                  <span class="dot dot-y"></span>
+                  <span class="dot dot-g"></span>
+                </div>
+                <div class="tab" id="browser-tab-label">Demo Form · localhost</div>
+                <div id="url-bar" class="url-bar">http://localhost:5173/?slide=demo-form</div>
+              </div>
+              <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Demo form"></iframe>
+            </div>
+          </div>
+          <div id="recording-phase" class="recording-phase">Prompt</div>
+          <div id="chrome-caption" class="chrome-caption"></div>
+        </section>
+
+        <aside class="agent-panel">
+          <div class="agent-header">
+            <div class="agent-header-title">
+              Chat
+              <span class="agent-header-badge">Agent</span>
+            </div>
+            <div class="agent-header-actions">⋯</div>
+          </div>
+          <div id="cursor-thread" class="cursor-thread"></div>
+          <div class="cursor-composer">
+            <div class="composer-toolbar">
+              <div class="composer-mode">
+                <span class="composer-mode-pill">Agent</span>
+                <span>Auto</span>
+              </div>
+              <span class="composer-model">claude-4-sonnet</span>
+            </div>
+            <div class="composer-box">
+              <div id="composer-text" class="composer-text cursor-blink"></div>
+              <button type="button" class="composer-send" aria-hidden="true">↑</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="ide-statusbar">
+        <div class="status-left">
+          <span class="status-item">main*</span>
+          <span class="status-item">WeAreDevelopers 2026</span>
+        </div>
+        <div class="status-right" id="chrome-connect-status">
+          <span class="status-item">MCP · connecting…</span>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/recording-cursor-ui.js"></script>
+    <script>
+      const USER_PROMPT =
+        "Navigate to http://localhost:5173/?slide=demo-form and fill the registration form with: Suchitra Swain, suchitra@example.com, Cursor, Full Stack Developer, AI & Frontend track, and a message about Chrome DevTools MCP."
+
+      createCursorRecordingUI({
+        userPrompt: USER_PROMPT,
+        thinkingText:
+          "Connect to Chrome via DevTools MCP, open the demo form, take a snapshot, fill_form with registration details, and submit.",
+        agentIntroMessage:
+          "I'll connect to your Chrome browser through chrome-devtools-mcp, open the registration form, fill every field, and submit.",
+        chromeUrl: "http://localhost:5173/?slide=demo-form",
+        frameUrl: "/?slide=demo-form&embed=form",
+        browserUrl: "http://127.0.0.1:9223",
+        browserTab: "Demo Form · localhost:5173",
+        projectFile: "demo-form",
+      })
+    </script>
+  </body>
+</html>

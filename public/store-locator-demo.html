@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevTools Store Locator</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: "Google Sans", "Geist Variable", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #f8f9fa;
+        color: #202124;
+        min-height: 100vh;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        background: #fff;
+        border-bottom: 1px solid #dadce0;
+      }
+
+      .logo {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: conic-gradient(from 180deg, #4285f4, #34a853, #fbbc05, #ea4335, #4285f4);
+      }
+
+      .header h1 { font-size: 16px; font-weight: 500; }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        min-height: calc(100vh - 53px);
+      }
+
+      .left {
+        padding: 20px;
+        border-right: 1px solid #e8eaed;
+        background: #fff;
+      }
+
+      .left h2 {
+        font-size: 22px;
+        font-weight: 400;
+        margin-bottom: 6px;
+      }
+
+      .left p {
+        color: #5f6368;
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+
+      .search-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      #store-search {
+        flex: 1;
+        height: 40px;
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+        padding: 0 12px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      #store-search:focus {
+        border-color: #4285f4;
+        box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.18);
+      }
+
+      #store-search-btn {
+        height: 40px;
+        padding: 0 16px;
+        border: 0;
+        border-radius: 8px;
+        background: #1a73e8;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .panel {
+        border: 1px solid #dadce0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+
+      .panel-head {
+        padding: 10px 14px;
+        border-bottom: 1px solid #e8eaed;
+        font-size: 11px;
+        font-weight: 600;
+        color: #5f6368;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .store-item {
+        display: flex;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid #f1f3f4;
+      }
+
+      .store-item:last-child { border-bottom: 0; }
+
+      .pin {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(26, 115, 232, 0.12);
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+      }
+
+      .store-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+      .store-meta { font-size: 12px; color: #5f6368; line-height: 1.4; }
+
+      .empty {
+        padding: 20px 14px;
+        text-align: center;
+        color: #5f6368;
+        font-size: 13px;
+      }
+
+      .near-me { display: none; }
+      .near-me.visible { display: block; }
+      .near-me .panel-head { color: #1a73e8; }
+
+      .status {
+        margin-bottom: 12px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        display: none;
+      }
+
+      .status.success {
+        display: block;
+        background: #e6f4ea;
+        color: #137333;
+        border: 1px solid #ceead6;
+      }
+
+      .status.info {
+        display: block;
+        background: #e8f0fe;
+        color: #174ea6;
+        border: 1px solid #d2e3fc;
+      }
+
+      .map-pane {
+        position: relative;
+        background:
+          linear-gradient(#dfe8f3 1px, transparent 1px),
+          linear-gradient(90deg, #dfe8f3 1px, transparent 1px),
+          linear-gradient(180deg, #eef4fb 0%, #dce9f8 45%, #c8dbf0 100%);
+        background-size: 28px 28px, 28px 28px, 100% 100%;
+        overflow: hidden;
+      }
+
+      .map-label {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #5f6368;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #dadce0;
+      }
+
+      .location-card {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        width: min(260px, 72%);
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #dadce0;
+        box-shadow: 0 8px 24px rgba(60, 64, 67, 0.15);
+        padding: 12px 14px;
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+      }
+
+      .location-card.flash {
+        transform: scale(1.02);
+        box-shadow: 0 12px 32px rgba(26, 115, 232, 0.22);
+      }
+
+      .location-card h3 {
+        font-size: 11px;
+        font-weight: 600;
+        color: #1a73e8;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+      }
+
+      .location-card .address {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.35;
+        margin-bottom: 8px;
+      }
+
+      .coords {
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        color: #5f6368;
+      }
+
+      .map-pin {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-radius: 50% 50% 50% 0;
+        background: #ea4335;
+        transform: rotate(-45deg);
+        box-shadow: 0 4px 10px rgba(234, 67, 53, 0.45);
+        transition: left 0.8s ease, top 0.8s ease;
+      }
+
+      .map-pin::after {
+        content: "";
+        position: absolute;
+        inset: 4px;
+        border-radius: 50%;
+        background: #fff;
+        transform: rotate(45deg);
+      }
+
+      .sensors-pill {
+        position: absolute;
+        bottom: 16px;
+        left: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        background: rgba(32, 33, 36, 0.88);
+        color: #fff;
+        font-size: 11px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+      }
+
+      .sensors-pill.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .sensors-pill span {
+        color: #8ab4f8;
+        font-family: ui-monospace, monospace;
+      }
+
+      .embed .header { display: none; }
+      .embed .layout { min-height: 100vh; }
+      .embed .left { padding: 16px; }
+      .embed .left h2 { font-size: 18px; }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>DevTools Store Locator</h1>
+    </header>
+
+    <div class="layout">
+      <section class="left">
+        <h2>Find a store</h2>
+        <p>Search by city or use emulated device location (DevTools Sensors).</p>
+
+        <div class="search-row">
+          <input id="store-search" type="search" placeholder="Berlin, Washington…" autocomplete="off" />
+          <button id="store-search-btn" type="button">Search</button>
+        </div>
+
+        <div id="status" class="status"></div>
+
+        <section class="panel">
+          <div class="panel-head">Search results</div>
+          <div id="store-results">
+            <div class="empty">Search for a city to see stores.</div>
+          </div>
+        </section>
+
+        <section id="near-me-section" class="near-me panel">
+          <div class="panel-head">Near me · emulated location</div>
+          <div id="near-me-stores"></div>
+        </section>
+      </section>
+
+      <section class="map-pane" aria-label="Map">
+        <div class="map-label">Near me features</div>
+        <div id="location-card" class="location-card">
+          <h3>Your location</h3>
+          <div id="location-address" class="address">Eppendorfer Baum 22, 20249 Hamburg</div>
+          <div id="location-coords" class="coords">53.593 · 9.987 · Europe/Berlin</div>
+        </div>
+        <div id="map-pin" class="map-pin" style="left: 58%; top: 34%"></div>
+        <div id="sensors-pill" class="sensors-pill">
+          DevTools Sensors · <span id="sensors-value">Paris override active</span>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const STORES = {
+        berlin: [{
+          name: "Berlin DevTools Store",
+          address: "Friedrichstraße 43, 10117 Berlin, Germany",
+          hours: "Mon–Sat · 10:00–19:00",
+        }],
+        washington: [],
+        paris: [
+          {
+            name: "Paris DevTools Store · Le Marais",
+            address: "14 Rue des Archives, 75004 Paris, France",
+            hours: "Mon–Sat · 10:00–20:00",
+          },
+          {
+            name: "Paris DevTools Store · Montparnasse",
+            address: "55 Boulevard du Montparnasse, 75006 Paris, France",
+            hours: "Mon–Sat · 09:30–19:30",
+          },
+        ],
+      }
+
+      const LOCATIONS = {
+        hamburg: {
+          address: "Eppendorfer Baum 22, 20249 Hamburg",
+          coords: "53.593 · 9.987 · Europe/Berlin",
+          pin: { left: "58%", top: "34%" },
+        },
+        paris: {
+          address: "1 Rue de Rivoli, 75004 Paris",
+          coords: "48.857 · 2.352 · Europe/Paris",
+          pin: { left: "46%", top: "62%" },
+        },
+      }
+
+      if (new URLSearchParams(location.search).get("embed") === "1") {
+        document.documentElement.classList.add("embed")
+      }
+
+      const searchInput = document.getElementById("store-search")
+      const searchBtn = document.getElementById("store-search-btn")
+      const resultsEl = document.getElementById("store-results")
+      const statusEl = document.getElementById("status")
+      const nearMeSection = document.getElementById("near-me-section")
+      const nearMeEl = document.getElementById("near-me-stores")
+      const locationCard = document.getElementById("location-card")
+      const locationAddress = document.getElementById("location-address")
+      const locationCoords = document.getElementById("location-coords")
+      const mapPin = document.getElementById("map-pin")
+      const sensorsPill = document.getElementById("sensors-pill")
+
+      function renderStores(stores) {
+        if (!stores.length) {
+          resultsEl.innerHTML = '<div class="empty">No stores found for this location.</div>'
+          return
+        }
+        resultsEl.innerHTML = stores.map((store) => `
+          <article class="store-item">
+            <div class="pin">📍</div>
+            <div>
+              <div class="store-name">${store.name}</div>
+              <div class="store-meta">${store.address}<br>${store.hours}</div>
+            </div>
+          </article>`).join("")
+      }
+
+      function renderNearMe(stores) {
+        nearMeSection.classList.add("visible")
+        nearMeEl.innerHTML = stores.map((store) => `
+          <article class="store-item">
+            <div class="pin">📍</div>
+            <div>
+              <div class="store-name">${store.name}</div>
+              <div class="store-meta">${store.address}<br>${store.hours}</div>
+            </div>
+          </article>`).join("")
+      }
+
+      function setStatus(message, type) {
+        statusEl.className = `status ${type}`
+        statusEl.textContent = message
+      }
+
+      function setMapLocation(key) {
+        const loc = LOCATIONS[key]
+        if (!loc) return
+        locationAddress.textContent = loc.address
+        locationCoords.textContent = loc.coords
+        mapPin.style.left = loc.pin.left
+        mapPin.style.top = loc.pin.top
+        locationCard.classList.add("flash")
+        setTimeout(() => locationCard.classList.remove("flash"), 600)
+      }
+
+      function searchCity(raw) {
+        const city = raw.trim().toLowerCase()
+        if (!city) {
+          resultsEl.innerHTML = '<div class="empty">Search for a city to see stores.</div>'
+          statusEl.className = "status"
+          return
+        }
+        if (city.includes("berlin")) {
+          renderStores(STORES.berlin)
+          setStatus("✓ Store found in Berlin.", "success")
+          return
+        }
+        if (city.includes("washington")) {
+          renderStores(STORES.washington)
+          setStatus("✓ Confirmed: no store for Washington.", "info")
+          return
+        }
+        renderStores([])
+        setStatus("No stores found for this city.", "info")
+      }
+
+      window.__emulateLocation = (city) => {
+        const key = city.trim().toLowerCase()
+        if (key !== "paris") return
+        setMapLocation("paris")
+        renderNearMe(STORES.paris)
+        sensorsPill.classList.add("visible")
+        setStatus("✓ Paris location emulated · UI updated · near-me stores listed.", "success")
+      }
+
+      searchBtn.addEventListener("click", () => searchCity(searchInput.value))
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") searchCity(searchInput.value)
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Network MCP Demo Recording</title>
+    <link rel="stylesheet" href="/recording-cursor-ui.css" />
+  </head>
+  <body class="recording-root">
+    <div class="ide-window">
+      <header class="ide-titlebar">
+        <div class="traffic-lights"><span class="close"></span><span class="minimize"></span><span class="maximize"></span></div>
+        <div class="ide-title"><strong>wearedevelopers-presentation</strong> — Cursor</div>
+      </header>
+      <div class="ide-workspace">
+        <nav class="ide-activity-bar" aria-hidden="true">
+          <span class="activity-icon">⌂</span><span class="activity-icon active">◇</span><span class="activity-icon">⌕</span>
+          <span class="activity-spacer"></span><span class="activity-icon">⚙</span>
+        </nav>
+        <aside class="ide-sidebar">
+          <div class="sidebar-header">Explorer</div>
+          <div class="file-item nested active"><span class="file-icon">{ }</span> mcp.json</div>
+        </aside>
+        <section class="browser-panel">
+          <div class="browser-panel-header">
+            <span class="browser-panel-title">Chrome · controlled by MCP</span>
+            <span class="browser-mcp-pill">Live browser</span>
+          </div>
+          <div class="browser-stage">
+            <div class="chrome-window" id="chrome-window">
+              <div class="chrome-toolbar">
+                <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+                <div class="tab" id="browser-tab-label">Demo Form · localhost</div>
+                <div id="url-bar" class="url-bar">http://localhost:5173/?slide=demo-form</div>
+              </div>
+              <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Demo form"></iframe>
+              <div id="devtools-drawer" class="devtools-drawer" aria-hidden="true">
+                <div class="devtools-drawer-tabs">
+                  <span>Console</span><span class="active">Network</span><span>Performance</span>
+                </div>
+                <div class="devtools-drawer-body">
+                  <div class="network-row"><span>demo-form</span><span>document</span><span>142 ms</span></div>
+                  <div class="network-row"><span>index.css</span><span>stylesheet</span><span>38 ms</span></div>
+                  <div class="network-row highlight" id="network-register"><span>register</span><span>fetch</span><span>89 ms</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="recording-phase" class="recording-phase">Prompt</div>
+          <div id="chrome-caption" class="chrome-caption"></div>
+        </section>
+        <aside class="agent-panel">
+          <div class="agent-header"><div class="agent-header-title">Chat <span class="agent-header-badge">Agent</span></div></div>
+          <div id="cursor-thread" class="cursor-thread"></div>
+          <div class="cursor-composer">
+            <div class="composer-box"><div id="composer-text" class="composer-text cursor-blink"></div></div>
+          </div>
+        </aside>
+      </div>
+      <footer class="ide-statusbar"><div class="status-right" id="chrome-connect-status"></div></footer>
+    </div>
+    <script src="/recording-cursor-ui.js"></script>
+    <script>
+      createCursorRecordingUI({
+        userPrompt: "Open the demo registration form, submit it, then use get_network_requests to list all requests and flag anything slow or failing.",
+        agentIntroMessage: "I'll open the demo form, submit registration, and read the Network panel via get_network_requests.",
+        chromeUrl: "http://localhost:5173/?slide=demo-form",
+        frameUrl: "/?slide=demo-form&embed=form",
+        browserUrl: "http://127.0.0.1:9223",
+        browserTab: "Demo Form · localhost",
+        projectFile: "network",
+      })
+    </script>
+  </body>
+</html>

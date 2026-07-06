@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DevTools Device Emulation Demo Recording</title>
+    <link rel="stylesheet" href="/recording-cursor-ui.css" />
+  </head>
+  <body class="recording-root">
+    <div class="ide-window">
+      <header class="ide-titlebar">
+        <div class="traffic-lights">
+          <span class="close"></span>
+          <span class="minimize"></span>
+          <span class="maximize"></span>
+        </div>
+        <div class="ide-title">
+          <strong>wearedevelopers-presentation</strong> — Cursor
+        </div>
+      </header>
+
+      <div class="ide-workspace">
+        <nav class="ide-activity-bar" aria-hidden="true">
+          <span class="activity-icon">⌂</span>
+          <span class="activity-icon active">◇</span>
+          <span class="activity-icon">⌕</span>
+          <span class="activity-spacer"></span>
+          <span class="activity-icon">⚙</span>
+        </nav>
+
+        <aside class="ide-sidebar">
+          <div class="sidebar-header">Explorer</div>
+          <div class="file-tree">
+            <div class="file-item"><span class="file-icon">▾</span> wearedevelopers-presentation</div>
+            <div class="file-item nested"><span class="file-icon">▸</span> .cursor</div>
+            <div class="file-item nested active"><span class="file-icon">{ }</span> mcp.json</div>
+            <div class="file-item nested"><span class="file-icon">▸</span> public</div>
+            <div class="file-item nested"><span class="file-icon">◉</span> suchitra-swain.web.app</div>
+          </div>
+        </aside>
+
+        <section class="browser-panel">
+          <div class="browser-panel-header">
+            <span class="browser-panel-title">Chrome · controlled by MCP</span>
+            <span class="browser-mcp-pill">Live browser</span>
+          </div>
+          <div class="browser-stage">
+            <div class="chrome-window" id="chrome-window">
+              <div class="chrome-toolbar">
+                <div class="dots">
+                  <span class="dot dot-r"></span>
+                  <span class="dot dot-y"></span>
+                  <span class="dot dot-g"></span>
+                </div>
+                <div class="tab" id="browser-tab-label">suchitra-swain.web.app</div>
+                <div id="url-bar" class="url-bar">https://suchitra-swain.web.app/</div>
+              </div>
+              <div class="chrome-frame-wrap">
+                <div id="devtools-device-bar" class="devtools-device-bar" aria-hidden="true">
+                  <span class="device-pill">▣ <span id="device-bar-name">iPhone 14 Pro</span></span>
+                  <span id="device-bar-size" class="device-size">390 × 844</span>
+                  <span class="device-label">Device emulation · live Chrome</span>
+                </div>
+                <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Live Chrome screenshot" style="display:none"></iframe>
+                <img id="live-screenshot" class="demo-frame" alt="Live Chrome tab" style="display:none;object-fit:cover;object-position:top" />
+              </div>
+            </div>
+          </div>
+          <div id="recording-phase" class="recording-phase">Prompt</div>
+          <div id="chrome-caption" class="chrome-caption"></div>
+        </section>
+
+        <aside class="agent-panel">
+          <div class="agent-header">
+            <div class="agent-header-title">
+              Chat
+              <span class="agent-header-badge">Agent</span>
+            </div>
+            <div class="agent-header-actions">⋯</div>
+          </div>
+          <div id="cursor-thread" class="cursor-thread"></div>
+          <div class="cursor-composer">
+            <div class="composer-toolbar">
+              <div class="composer-mode">
+                <span class="composer-mode-pill">Agent</span>
+                <span>Auto</span>
+              </div>
+              <span class="composer-model">claude-4-sonnet</span>
+            </div>
+            <div class="composer-box">
+              <div id="composer-text" class="composer-text cursor-blink"></div>
+              <button type="button" class="composer-send" aria-hidden="true">↑</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="ide-statusbar">
+        <div class="status-left">
+          <span class="status-item">main*</span>
+          <span class="status-item">WeAreDevelopers 2026</span>
+        </div>
+        <div class="status-right" id="chrome-connect-status">
+          <span class="status-item">MCP · connecting…</span>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/recording-cursor-ui.js"></script>
+    <script>
+      const USER_PROMPT =
+        "Using Chrome DevTools MCP, emulate mobile, tablet, and desktop on https://suchitra-swain.web.app/ and run a responsive audit: check hero visibility, navigation (burger on mobile vs desktop links), and horizontal overflow on each viewport. Summarize findings."
+
+      createCursorRecordingUI({
+        userPrompt: USER_PROMPT,
+        thinkingText:
+          "Connect to Chrome via DevTools MCP on port 9223, open suchitra-swain.web.app, emulate mobile/tablet/desktop viewports, and audit responsive layout.",
+        agentIntroMessage:
+          "I'll connect to your real Chrome via chrome-devtools-mcp and emulate viewports on suchitra-swain.web.app — checking hero, nav, and overflow on each breakpoint.",
+        chromeUrl: "https://suchitra-swain.web.app/",
+        frameUrl: "about:blank",
+        browserUrl: "http://127.0.0.1:9223",
+        browserTab: "suchitra-swain.web.app",
+        projectFile: "portfolio",
+      })
+    </script>
+  </body>
+</html>

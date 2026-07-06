@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DevTools Emulation Demo Recording</title>
+    <link rel="stylesheet" href="/recording-cursor-ui.css" />
+  </head>
+  <body class="recording-root">
+    <div class="ide-window">
+      <header class="ide-titlebar">
+        <div class="traffic-lights">
+          <span class="close"></span>
+          <span class="minimize"></span>
+          <span class="maximize"></span>
+        </div>
+        <div class="ide-title">
+          <strong>wearedevelopers-presentation</strong> — Cursor
+        </div>
+      </header>
+
+      <div class="ide-workspace">
+        <nav class="ide-activity-bar" aria-hidden="true">
+          <span class="activity-icon">⌂</span>
+          <span class="activity-icon active">◇</span>
+          <span class="activity-icon">⌕</span>
+          <span class="activity-spacer"></span>
+          <span class="activity-icon">⚙</span>
+        </nav>
+
+        <aside class="ide-sidebar">
+          <div class="sidebar-header">Explorer</div>
+          <div class="file-tree">
+            <div class="file-item"><span class="file-icon">▾</span> wearedevelopers-presentation</div>
+            <div class="file-item nested"><span class="file-icon">▸</span> .cursor</div>
+            <div class="file-item nested active"><span class="file-icon">{ }</span> mcp.json</div>
+            <div class="file-item nested"><span class="file-icon">▸</span> public</div>
+            <div class="file-item nested"><span class="file-icon">◉</span> store-locator-demo.html</div>
+          </div>
+        </aside>
+
+        <section class="browser-panel">
+          <div class="browser-panel-header">
+            <span class="browser-panel-title">Chrome · controlled by MCP</span>
+            <span class="browser-mcp-pill">Live browser</span>
+          </div>
+          <div class="browser-stage">
+            <div class="chrome-window" id="chrome-window">
+              <div class="chrome-toolbar">
+                <div class="dots">
+                  <span class="dot dot-r"></span>
+                  <span class="dot dot-y"></span>
+                  <span class="dot dot-g"></span>
+                </div>
+                <div class="tab" id="browser-tab-label">Store Locator · chrome.dev</div>
+                <div id="url-bar" class="url-bar">https://chrome.dev/devtools-store-locator</div>
+              </div>
+              <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Store locator demo"></iframe>
+              <div id="devtools-drawer" class="devtools-drawer" aria-hidden="true">
+                <div class="devtools-drawer-tabs">
+                  <span>Console</span>
+                  <span class="active">Sensors</span>
+                </div>
+                <div class="devtools-drawer-body">
+                  <div class="devtools-drawer-label">Location</div>
+                  <div class="devtools-drawer-controls">
+                    <div class="devtools-row">
+                      <span id="sensors-override" class="devtools-select highlight">Paris, France</span>
+                      <span class="devtools-select" style="min-width: auto; padding: 5px 12px">Manage</span>
+                    </div>
+                    <div class="devtools-fields">
+                      <div class="devtools-field">
+                        <label>Latitude</label>
+                        <span id="sensors-lat">48.857</span>
+                      </div>
+                      <div class="devtools-field">
+                        <label>Longitude</label>
+                        <span id="sensors-lng">2.352</span>
+                      </div>
+                      <div class="devtools-field">
+                        <label>Timezone ID</label>
+                        <span>Europe/Paris</span>
+                      </div>
+                      <div class="devtools-field">
+                        <label>Locale</label>
+                        <span>fr-FR</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="recording-phase" class="recording-phase">Prompt</div>
+          <div id="chrome-caption" class="chrome-caption"></div>
+        </section>
+
+        <aside class="agent-panel">
+          <div class="agent-header">
+            <div class="agent-header-title">
+              Chat
+              <span class="agent-header-badge">Agent</span>
+            </div>
+            <div class="agent-header-actions">⋯</div>
+          </div>
+          <div id="cursor-thread" class="cursor-thread"></div>
+          <div class="cursor-composer">
+            <div class="composer-toolbar">
+              <div class="composer-mode">
+                <span class="composer-mode-pill">Agent</span>
+                <span>Auto</span>
+              </div>
+              <span class="composer-model">claude-4-sonnet</span>
+            </div>
+            <div class="composer-box">
+              <div id="composer-text" class="composer-text cursor-blink"></div>
+              <button type="button" class="composer-send" aria-hidden="true">↑</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="ide-statusbar">
+        <div class="status-left">
+          <span class="status-item">main*</span>
+          <span class="status-item">WeAreDevelopers 2026</span>
+        </div>
+        <div class="status-right" id="chrome-connect-status">
+          <span class="status-item">MCP · connecting…</span>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/recording-cursor-ui.js"></script>
+    <script>
+      const USER_PROMPT =
+        "Go to chrome.dev/devtools-store-locator. Search for Berlin, and confirm there's a store showing. Confirm there's no store for Washington. Finally, emulate Paris as location and verify there are stores listed. Fix all bugs you encounter."
+
+      createCursorRecordingUI({
+        userPrompt: USER_PROMPT,
+        thinkingText:
+          "Connect to Chrome via DevTools MCP, open the store locator, verify Berlin and Washington searches, then emulate Paris geolocation and confirm the near-me UI updates.",
+        agentIntroMessage:
+          "I'll connect to Chrome via chrome-devtools-mcp, search Berlin and Washington on the store locator, then emulate Paris in DevTools Sensors.",
+        chromeUrl: "https://chrome.dev/devtools-store-locator",
+        frameUrl: "/store-locator-demo.html?embed=1",
+        browserUrl: "http://127.0.0.1:9223",
+        browserTab: "Store Locator · chrome.dev",
+        projectFile: "store-locator",
+      })
+    </script>
+  </body>
+</html>

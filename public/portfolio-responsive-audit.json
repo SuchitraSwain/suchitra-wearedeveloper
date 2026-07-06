@@ -1,0 +1,71 @@
+{
+  "url": "https://suchitra-swain.web.app/",
+  "auditedAt": "2026-07-03T16:27:45.537Z",
+  "method": "Chrome DevTools Protocol · Emulation.setDeviceMetricsOverride (chrome-devtools-mcp emulate)",
+  "results": [
+    {
+      "device": "iPhone 14 Pro",
+      "viewport": "390x844x3,mobile,touch",
+      "findings": {
+        "title": "Suchitra Swain",
+        "heroVisible": true,
+        "heroText": "Suchitra Swain",
+        "navPresent": true,
+        "burgerVisible": true,
+        "desktopNavLinkCount": 1,
+        "emailLinkVisible": false,
+        "horizontalOverflow": false,
+        "viewport": {
+          "w": 390,
+          "h": 844
+        }
+      },
+      "screenshotPath": "/Users/suchitraswain/Documents/wearedevelopers-presentation/public/portfolio-audit-mobile.png"
+    },
+    {
+      "device": "iPad Air",
+      "viewport": "820x1180x2,mobile,touch",
+      "findings": {
+        "title": "Suchitra Swain",
+        "heroVisible": true,
+        "heroText": "Suchitra Swain",
+        "navPresent": true,
+        "burgerVisible": true,
+        "desktopNavLinkCount": 1,
+        "emailLinkVisible": false,
+        "horizontalOverflow": false,
+        "viewport": {
+          "w": 820,
+          "h": 1180
+        }
+      },
+      "screenshotPath": "/Users/suchitraswain/Documents/wearedevelopers-presentation/public/portfolio-audit-tablet.png"
+    },
+    {
+      "device": "Desktop",
+      "viewport": "1280x800x1",
+      "findings": {
+        "title": "Suchitra Swain",
+        "heroVisible": true,
+        "heroText": "Suchitra Swain",
+        "navPresent": true,
+        "burgerVisible": false,
+        "desktopNavLinkCount": 9,
+        "emailLinkVisible": false,
+        "horizontalOverflow": false,
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        }
+      },
+      "screenshotPath": "/Users/suchitraswain/Documents/wearedevelopers-presentation/public/portfolio-audit-desktop.png"
+    }
+  ],
+  "summary": {
+    "allHeroVisible": true,
+    "allEmailVisible": false,
+    "noOverflow": true,
+    "mobileHasBurger": true,
+    "desktopHasNav": true
+  }
+}

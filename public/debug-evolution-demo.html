@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Debugging Evolution — Then vs Now</title>
+    <style>
+      :root {
+        --bg: #0b0e14;
+        --panel: #141820;
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #e8eaed;
+        --muted: #9aa0a6;
+        --pink: #ff174d;
+        --blue: #3794ff;
+        --green: #3fb950;
+        --dt-bg: #202124;
+        --dt-border: #3c4043;
+        --mono: ui-monospace, "SF Mono", Menlo, monospace;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+      }
+
+      .evolution-root {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 24px 28px 16px;
+        background:
+          radial-gradient(ellipse 80% 50% at 15% 0%, rgba(255, 23, 77, 0.08), transparent),
+          radial-gradient(ellipse 70% 45% at 85% 100%, rgba(55, 148, 255, 0.1), transparent),
+          var(--bg);
+      }
+
+      .hero { text-align: center; margin-bottom: 14px; }
+      .hero h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 6px; }
+      .hero p { font-size: 15px; color: var(--muted); }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 48px 1fr;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        color: var(--pink);
+        opacity: 0;
+        transform: scale(0.85);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .divider.visible { opacity: 1; transform: scale(1); }
+
+      .panel {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+      }
+
+      .panel.visible { opacity: 1; transform: translateY(0); }
+
+      .panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .badge {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 4px 9px;
+        border-radius: 999px;
+      }
+
+      .badge.then { background: rgba(255, 255, 255, 0.08); color: var(--muted); }
+      .badge.now { background: rgba(55, 148, 255, 0.15); color: #8ab4f8; }
+      .panel-title { font-size: 13px; font-weight: 600; }
+      .panel-body { flex: 1; min-height: 0; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+      .devtools-window {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        border: 1px solid var(--dt-border);
+        background: var(--dt-bg);
+        overflow: hidden;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+      }
+
+      .devtools-tabs {
+        display: flex;
+        align-items: flex-end;
+        padding: 0 8px;
+        background: #292a2d;
+        border-bottom: 1px solid var(--dt-border);
+      }
+
+      .devtools-tab {
+        padding: 8px 14px 9px;
+        font-size: 11px;
+        color: var(--muted);
+        border-bottom: 2px solid transparent;
+      }
+
+      .devtools-tab.active {
+        color: var(--text);
+        background: var(--dt-bg);
+        border-bottom-color: #8ab4f8;
+      }
+
+      .console-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-bottom: 1px solid var(--dt-border);
+        background: var(--dt-bg);
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .console-toolbar .filter {
+        flex: 1;
+        max-width: 200px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--dt-border);
+        background: #131314;
+        color: var(--muted);
+      }
+
+      .console-toolbar .pill {
+        padding: 3px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--dt-border);
+        background: #292a2d;
+      }
+
+      .console-rows {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        padding: 6px 0;
+        font-family: var(--mono);
+        font-size: 11px;
+        line-height: 1.55;
+      }
+
+      .console-row {
+        display: grid;
+        grid-template-columns: 18px 1fr auto;
+        gap: 6px;
+        padding: 3px 12px;
+        border-left: 3px solid transparent;
+        min-height: 20px;
+      }
+
+      .console-row.log { color: #e8eaed; }
+      .console-row.error {
+        color: #f28b82;
+        border-left-color: #f28b82;
+        background: rgba(242, 139, 130, 0.06);
+      }
+      .console-row.warning { color: #fdd663; border-left-color: #fdd663; }
+
+      .console-row .icon { text-align: center; opacity: 0.85; }
+      .console-row .msg { white-space: pre-wrap; word-break: break-word; }
+      .console-row .source { color: #8ab4f8; font-size: 10px; white-space: nowrap; opacity: 0; transition: opacity 0.3s ease; }
+      .console-row.done .source { opacity: 0.9; }
+
+      .cursor {
+        display: inline-block;
+        width: 6px;
+        height: 12px;
+        margin-left: 1px;
+        background: #8ab4f8;
+        vertical-align: text-bottom;
+        animation: blink 0.9s step-end infinite;
+      }
+
+      @keyframes blink { 50% { opacity: 0; } }
+
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+      .chip {
+        font-size: 10px;
+        padding: 5px 9px;
+        border-radius: 7px;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        opacity: 0;
+        transform: translateY(4px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+      }
+
+      .chip.show { opacity: 1; transform: translateY(0); }
+
+      .ai-split {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        min-height: 0;
+      }
+
+      .agent-pane {
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #0d1017;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 11px;
+        min-height: 0;
+      }
+
+      .agent-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #c4b5fd;
+      }
+
+      #prompt-text {
+        line-height: 1.45;
+        color: #ccc;
+        font-size: 11px;
+        min-height: 32px;
+      }
+
+      .tool-call {
+        border-radius: 7px;
+        border: 1px solid rgba(55, 148, 255, 0.22);
+        background: rgba(55, 148, 255, 0.05);
+        padding: 7px 10px;
+        font-family: var(--mono);
+        font-size: 10px;
+        opacity: 1;
+        transform: translateY(0);
+        transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .tool-call.pending {
+        opacity: 0.55;
+        border-style: dashed;
+      }
+
+      .tool-call.active {
+        opacity: 1;
+        border-color: rgba(55, 148, 255, 0.55);
+        background: rgba(55, 148, 255, 0.12);
+        box-shadow: 0 0 0 1px rgba(55, 148, 255, 0.15);
+      }
+
+      .tool-call.done {
+        opacity: 1;
+        border-color: rgba(63, 185, 80, 0.4);
+        background: rgba(63, 185, 80, 0.08);
+        border-style: solid;
+      }
+      .tool-call .server { font-size: 9px; color: var(--muted); text-transform: uppercase; margin-bottom: 2px; }
+      .tool-call .cmd { min-height: 14px; color: #8ab4f8; }
+
+      .browser-pane {
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #fff;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .browser-bar {
+        padding: 6px 10px;
+        background: #202124;
+        font-family: var(--mono);
+        font-size: 9px;
+        color: #9aa0a6;
+      }
+
+      .browser-body {
+        flex: 1;
+        padding: 14px;
+        background: #f8f9fa;
+        color: #202124;
+        font-size: 11px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .browser-body strong { font-size: 12px; font-weight: 600; }
+
+      .form-field {
+        padding: 8px 10px;
+        border: 2px solid #ea4335;
+        border-radius: 6px;
+        background: #fff;
+        font-size: 11px;
+        transition: border-color 0.45s ease, background 0.45s ease, color 0.45s ease;
+      }
+
+      .form-field.fixed {
+        border-color: #34a853;
+        background: rgba(52, 168, 83, 0.08);
+        color: #137333;
+      }
+
+      .complete {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--green);
+        opacity: 0;
+        margin-top: auto;
+        padding-top: 4px;
+        transition: opacity 0.4s ease;
+      }
+
+      .complete.show { opacity: 1; }
+
+      .footer-tag {
+        text-align: center;
+        margin-top: 22px;
+        font-size: 14px;
+        color: var(--muted);
+        opacity: 0;
+        transition: opacity 0.6s ease;
+      }
+
+      .footer-tag.visible { opacity: 1; }
+      .footer-tag strong { color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div class="evolution-root">
+      <header class="hero">
+        <h1>The evolution of debugging</h1>
+        <p>Real Chrome DevTools Console → AI + chrome-devtools-mcp on live runtime</p>
+      </header>
+
+      <div class="split">
+        <section class="panel then visible" id="panel-then">
+          <div class="panel-head">
+            <span class="badge then">Then</span>
+            <span class="panel-title">Chrome DevTools · manual Console</span>
+          </div>
+          <div class="panel-body">
+            <div class="devtools-window">
+              <div class="devtools-tabs">
+                <span class="devtools-tab">Elements</span>
+                <span class="devtools-tab active">Console</span>
+                <span class="devtools-tab">Sources</span>
+                <span class="devtools-tab">Network</span>
+              </div>
+              <div class="console-toolbar">
+                <span class="pill">⊘</span>
+                <span class="filter">Filter</span>
+                <span class="pill">Default levels ▾</span>
+                <span class="pill" id="console-count">0 ⚠ 0 ⨯</span>
+              </div>
+              <div class="console-rows" id="console-rows"></div>
+            </div>
+            <div class="chips">
+              <span class="chip" id="c1">console.log()</span>
+              <span class="chip" id="c2">Reproduce manually</span>
+              <span class="chip" id="c3">Minified stack traces</span>
+              <span class="chip" id="c4">Works on my machine</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider visible" id="divider">→</div>
+
+        <section class="panel now visible" id="panel-now">
+          <div class="panel-head">
+            <span class="badge now">Now</span>
+            <span class="panel-title">Cursor Agent · chrome-devtools-mcp</span>
+          </div>
+          <div class="panel-body">
+            <div class="ai-split">
+              <div class="agent-pane">
+                <div class="agent-label">Agent prompt</div>
+                <div id="prompt-text"></div>
+                <div class="tool-call pending" id="t1">
+                  <div class="server">chrome-devtools · MCP</div>
+                  <div class="cmd" id="t1-cmd"></div>
+                </div>
+                <div class="tool-call pending" id="t2">
+                  <div class="server">chrome-devtools · MCP</div>
+                  <div class="cmd" id="t2-cmd"></div>
+                </div>
+                <div class="tool-call pending" id="t3">
+                  <div class="server">chrome-devtools · MCP</div>
+                  <div class="cmd" id="t3-cmd"></div>
+                </div>
+                <div class="complete" id="complete">✓ Bug found in live DOM · fixed · verified</div>
+              </div>
+              <div class="browser-pane">
+                <div class="browser-bar">localhost:5173/?slide=demo-form · ● MCP</div>
+                <div class="browser-body">
+                  <strong>Registration form</strong>
+                  <div class="form-field" id="field-email">Email — validation error</div>
+                  <div class="form-field" id="field-submit">Submit — disabled</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <p class="footer-tag" id="footer-tag">Debug the <strong>runtime</strong> in your real browser — not just static code</p>
+    </div>
+
+    <script>
+      const consoleLogs = [
+        { type: "log", icon: "›", text: "HERE 1", source: "DemoForm.tsx:18", delay: 520 },
+        { type: "log", icon: "›", text: "HERE 2", source: "DemoForm.tsx:19", delay: 480 },
+        { type: "log", icon: "›", text: "data??? undefined", source: "DemoForm.tsx:20", delay: 560 },
+        {
+          type: "error",
+          icon: "⨯",
+          text: 'TypeError: Cannot read properties of undefined (reading "email")',
+          source: "DemoForm.tsx:24",
+          delay: 720,
+        },
+        { type: "warning", icon: "⚠", text: "validateEmail is not a function", source: "DemoForm.tsx:31", delay: 640 },
+        { type: "log", icon: "›", text: "still broken", source: "DemoForm.tsx:33", delay: 500 },
+      ]
+
+      const promptFull =
+        "Form fails on submit — inspect live Chrome, read console errors, fix validation."
+
+      const toolCalls = [
+        { id: "t1", cmdId: "t1-cmd", text: "take_snapshot()", pause: 900 },
+        { id: "t2", cmdId: "t2-cmd", text: "list_console_messages()", pause: 1000 },
+        { id: "t3", cmdId: "t3-cmd", text: "fill_form · fix validation", pause: 1100 },
+      ]
+
+      function wait(ms) {
+        return new Promise((r) => setTimeout(r, ms))
+      }
+
+      function show(el) {
+        el.classList.add("visible")
+      }
+
+      async function typeInto(el, text, speed = 22) {
+        el.textContent = ""
+        for (let i = 0; i <= text.length; i++) {
+          el.innerHTML = text.slice(0, i) + '<span class="cursor"></span>'
+          await wait(speed)
+        }
+        el.textContent = text
+      }
+
+      async function typeConsoleLine(container, entry) {
+        const row = document.createElement("div")
+        row.className = `console-row ${entry.type}`
+        const msgEl = document.createElement("span")
+        msgEl.className = "msg"
+        row.innerHTML = `<span class="icon">${entry.icon}</span>`
+        row.appendChild(msgEl)
+        const sourceEl = document.createElement("span")
+        sourceEl.className = "source"
+        sourceEl.textContent = entry.source || ""
+        row.appendChild(sourceEl)
+        container.appendChild(row)
+        container.scrollTop = container.scrollHeight
+
+        for (let i = 0; i <= entry.text.length; i++) {
+          msgEl.innerHTML = entry.text.slice(0, i) + '<span class="cursor"></span>'
+          await wait(entry.type === "error" ? 18 : 14)
+        }
+        msgEl.textContent = entry.text
+        row.classList.add("done")
+        container.scrollTop = container.scrollHeight
+        await wait(entry.delay ?? 400)
+      }
+
+      function updateConsoleCount(warnings, errors) {
+        document.getElementById("console-count").textContent = `${warnings} ⚠ ${errors} ⨯`
+      }
+
+      async function runToolCall({ id, cmdId, text, pause }) {
+        const box = document.getElementById(id)
+        const cmdEl = document.getElementById(cmdId)
+        box.classList.remove("pending")
+        box.classList.add("active")
+        await typeInto(cmdEl, text, 24)
+        await wait(pause * 0.35)
+        box.classList.remove("active")
+        box.classList.add("done")
+        await wait(pause * 0.65)
+      }
+
+      async function runThen(onReadyForNow) {
+        const container = document.getElementById("console-rows")
+        let warnings = 0
+        let errors = 0
+        let nowStarted = false
+
+        for (let i = 0; i < consoleLogs.length; i++) {
+          const entry = consoleLogs[i]
+          if (entry.type === "warning") warnings++
+          if (entry.type === "error") errors++
+          updateConsoleCount(warnings, errors)
+          await typeConsoleLine(container, entry)
+
+          if (!nowStarted && i === 2) {
+            nowStarted = true
+            onReadyForNow()
+          }
+        }
+
+        for (const id of ["c1", "c2", "c3", "c4"]) {
+          await wait(220)
+          document.getElementById(id).classList.add("show")
+        }
+
+        await wait(400)
+      }
+
+      async function runNow() {
+        await wait(150)
+        await typeInto(document.getElementById("prompt-text"), promptFull, 20)
+        await wait(450)
+
+        for (const call of toolCalls) {
+          await runToolCall(call)
+        }
+
+        await wait(350)
+        const email = document.getElementById("field-email")
+        email.classList.add("fixed")
+        await wait(280)
+        email.textContent = "Email — valid ✓"
+        await wait(450)
+
+        const submit = document.getElementById("field-submit")
+        submit.classList.add("fixed")
+        await wait(280)
+        submit.textContent = "Submit — enabled ✓"
+
+        await wait(500)
+        document.getElementById("complete").classList.add("show")
+        await wait(300)
+        show(document.getElementById("footer-tag"))
+      }
+
+      window.setRealConsoleLogs = (logs) => {
+        if (!logs?.length) return
+        consoleLogs.length = 0
+        for (const log of logs) {
+          consoleLogs.push({
+            type: log.type,
+            icon: log.icon,
+            text: log.text,
+            source: log.source?.includes(":") ? log.source : `${log.source}:18`,
+            delay: log.type === "error" ? 720 : log.type === "warning" ? 640 : 500,
+          })
+        }
+      }
+
+      let running = false
+
+      async function run() {
+        if (running) return
+        running = true
+        window.__evolutionReady = false
+        let nowPromise = null
+        await runThen(() => {
+          nowPromise = runNow()
+        })
+        if (nowPromise) await nowPromise
+        window.__evolutionReady = true
+        await wait(400)
+        running = false
+      }
+
+      window.startEvolutionDemo = run
+      if (!location.search.includes("record")) {
+        window.addEventListener("load", () => {
+          window.startEvolutionDemo()
+        })
+      }
+    </script>
+  </body>
+</html>
