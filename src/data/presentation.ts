@@ -111,6 +111,21 @@ export const devToolsMcpIntro = [
   "Running on your local machine",
 ] as const
 
+export const devToolsMcpIntroSlide = {
+  talkTrack: [
+    "Chrome DevTools MCP is an open-source MCP server — it gives your AI agent the same browser powers you have in DevTools.",
+    "Your agent can open pages, read console logs, run performance traces, and inspect network requests — all programmatically.",
+    "It runs on real Chrome, locally — so you're debugging runtime behavior, not guessing from static code.",
+    "Setup is one MCP config in Cursor or VS Code — then your agent gets tools like click, fill_form, emulate, and performance_trace.",
+  ],
+  video: {
+    src: "/devtools-mcp-intro-demo.webm",
+    poster: "/devtools-mcp-intro-demo-poster.png",
+    caption:
+      "Chrome DevTools MCP — what it is & how to set it up (0:25–0:41 · 2:09–2:34)",
+  },
+} as const
+
 export const devToolsMcpFeatures = [
   {
     title: "Input automation",

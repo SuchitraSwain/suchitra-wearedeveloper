@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DevTools MCP Intro — Recording</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+
+      /* Clip YouTube title/channel bar (top) and caption area (bottom). */
+      .player-viewport {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+
+      #player {
+        width: 1920px;
+        height: 1320px;
+        margin-top: -118px;
+        pointer-events: none;
+      }
+
+      #player iframe {
+        width: 100% !important;
+        height: 100% !important;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="player-viewport">
+      <div id="player"></div>
+    </div>
+    <script>
+      const VIDEO_ID = "vZPc4hKxIGA"
+      const SEGMENTS = [
+        { start: 25, end: 41 },
+        { start: 129, end: 154 },
+      ]
+
+      function disableCaptions() {
+        try {
+          window.player?.setOption?.("captions", "track", null)
+          window.player?.unloadModule?.("captions")
+        } catch {
+          // ignore — cc_load_policy handles most cases
+        }
+      }
+
+      function playSegment(index) {
+        const segment = SEGMENTS[index]
+
+        window.player.loadVideoById({
+          videoId: VIDEO_ID,
+          startSeconds: segment.start,
+          endSeconds: segment.end,
+        })
+
+        window.player.setPlaybackQuality("hd1080")
+        disableCaptions()
+        window.player.playVideo()
+      }
+
+      window.onYouTubeIframeAPIReady = () => {
+        window.player = new YT.Player("player", {
+          width: 1920,
+          height: 1320,
+          videoId: VIDEO_ID,
+          host: "https://www.youtube-nocookie.com",
+          playerVars: {
+            autoplay: 0,
+            controls: 0,
+            modestbranding: 1,
+            rel: 0,
+            iv_load_policy: 3,
+            cc_load_policy: 0,
+            playsinline: 1,
+            fs: 0,
+            disablekb: 1,
+            origin: window.location.origin,
+          },
+          events: {
+            onReady: () => {
+              disableCaptions()
+              window.__recordingReady = true
+              playSegment(0)
+              setTimeout(() => playSegment(1), 16_500)
+            },
+            onStateChange: (event) => {
+              if (event.data === YT.PlayerState.PLAYING) {
+                disableCaptions()
+              }
+            },
+          },
+        })
+      }
+
+      const tag = document.createElement("script")
+      tag.src = "https://www.youtube.com/iframe_api"
+      document.head.appendChild(tag)
+    </script>
+  </body>
+</html>

@@ -272,7 +272,8 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   }
 
-  .slide-video-split-inner video {
+  .slide-video-split-inner video,
+  .slide-video-split-inner iframe {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -321,7 +322,7 @@
       margin-left: calc(50% - 50vw);
       padding-left: max(var(--slide-padding), env(safe-area-inset-left, 0px));
       padding-right: max(2.5rem, env(safe-area-inset-right, 0px));
-      grid-template-columns: minmax(0, min(24rem, 30vw)) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
       gap: clamp(1.25rem, 2vw, 2rem);
     }
 
@@ -359,6 +360,7 @@
     flex-direction: column;
     justify-content: center;
     gap: clamp(0.75rem, 1.8cqw, 1.25rem);
+    overflow-y: auto;
   }
 
   .slide-split-video-panel {
