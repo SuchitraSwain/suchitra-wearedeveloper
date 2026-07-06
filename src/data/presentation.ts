@@ -173,6 +173,9 @@ export const devToolsMcpSetup = {
 
 ☑ Allow remote debugging for this browser
 → Server running at 127.0.0.1:9222`,
+      image: "/chrome-remote-debugging.png",
+      imageAlt:
+        "Chrome DevTools remote debugging panel with Allow remote debugging enabled and server running at 127.0.0.1:9222",
       note: "Turn on the setting · MCP auto-connects to your browser",
     },
     {
@@ -425,6 +428,7 @@ export const thankYouSlide = {
   headline: "Thank you!",
   subheadline: "Questions?",
   cta: "Let's build smarter with AI + Chrome DevTools",
+  linkedin: "https://www.linkedin.com/in/suchitra-swain-47562ab7/",
   links: [
     { label: "Chrome DevTools MCP", url: "https://github.com/ChromeDevTools/chrome-devtools-mcp" },
     { label: "WeAreDevelopers", url: "https://www.wearedevelopers.com/world-congress" },

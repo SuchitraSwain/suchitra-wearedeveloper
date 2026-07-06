@@ -55,7 +55,19 @@ export function DevToolsMcpSetupSlide() {
               </div>
 
               <div className="min-h-0 flex-1 overflow-y-auto p-[clamp(0.55rem,1.2cqw,0.75rem)]">
-                <CodeBlock code={step.code} />
+                {"image" in step && step.image ? (
+                  <img
+                    src={step.image}
+                    alt={step.imageAlt}
+                    className="w-full rounded-lg border border-white/10 bg-[#1e1e1e] object-contain"
+                  />
+                ) : null}
+                {"code" in step && step.code ? (
+                  <CodeBlock
+                    code={step.code}
+                    className={"image" in step && step.image ? "mt-2" : undefined}
+                  />
+                ) : null}
                 <p className="mt-2 text-[clamp(0.6rem,1.05cqw,0.7rem)] leading-relaxed text-white/40">
                   {step.note}
                 </p>
