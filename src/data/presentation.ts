@@ -472,7 +472,6 @@ export const emulateDevicesSlide = {
   explain: [
     "DevTools MCP emulate() sets viewport, user agent, and touch — same as the device toolbar.",
     "Cursor Agent audits your live site across breakpoints: nav, hero, overflow, key CTAs.",
-    "Live example: suchitra-swain.web.app audited in real Chrome on port 9223.",
   ],
   talkTrack: [
     "Use case two: responsive navigation — burger menu on mobile, full nav on desktop. Let the agent compare links across viewports.",
