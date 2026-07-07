@@ -20,12 +20,17 @@ export function DevToolsMcpConfigSlide() {
                 key={index}
                 className="flex min-h-0 flex-col justify-center gap-[clamp(0.35rem,0.9cqw,0.6rem)] rounded-xl border border-white/8 bg-white/[0.03] p-[clamp(0.85rem,2cqw,1.5rem)]"
               >
-                {column.map((flag) => (
+                {column.map((option) => (
                   <li
-                    key={flag}
-                    className="font-mono text-[clamp(0.75rem,1.5cqw,1rem)] leading-snug text-white/85"
+                    key={option.flag}
+                    className="flex flex-col gap-0.5 border-b border-white/5 pb-[clamp(0.35rem,0.9cqw,0.6rem)] last:border-b-0 last:pb-0"
                   >
-                    {flag}
+                    <span className="font-mono text-[clamp(0.72rem,1.35cqw,0.9rem)] leading-snug text-white/85">
+                      {option.flag}
+                    </span>
+                    <span className="text-[clamp(0.62rem,1.05cqw,0.74rem)] leading-snug text-white/42">
+                      {option.description}
+                    </span>
                   </li>
                 ))}
               </ul>

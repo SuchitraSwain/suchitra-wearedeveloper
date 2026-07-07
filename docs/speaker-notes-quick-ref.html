@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speaker Quick Ref — Prompt, Render, Debug</title>
+  <style>
+    @page { size: A4 landscape; margin: 10mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 7.5pt;
+      line-height: 1.25;
+      color: #111;
+      padding: 8mm;
+      max-width: 297mm;
+    }
+    h1 { font-size: 11pt; margin-bottom: 2mm; }
+    .meta { font-size: 7pt; color: #444; margin-bottom: 3mm; }
+    .controls {
+      display: flex; gap: 4mm; flex-wrap: wrap;
+      font-size: 6.5pt; background: #f4f4f4; padding: 2mm 3mm;
+      border-radius: 2px; margin-bottom: 3mm;
+    }
+    .spine { font-weight: 600; color: #7c3aed; margin-bottom: 3mm; font-size: 7pt; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 1.2mm 1.5mm; text-align: left; vertical-align: top; }
+    th { background: #1a1a2e; color: #fff; font-size: 6.5pt; }
+    tr:nth-child(even) { background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h1>Speaker Quick Ref — Prompt, Render, Debug (~30 min)</h1>
+  <p class="meta">Suchitra Swain · WeAreDevelopers 2026 · npm run dev → F fullscreen</p>
+  <div class="controls">
+    <span><b>→</b> next</span>
+    <span><b>←</b> back</span>
+    <span><b>F</b> fullscreen</span>
+    <span><b>?slide=id</b> jump</span>
+    <span>Chrome remote debugging ON</span>
+  </div>
+  <p class="spine">Spine: Prompt → Render → Debug · Real Chrome, not static code</p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ID</th>
+        <th>Time</th>
+        <th>Action</th>
+        <th>Key line</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>about-me</td><td>0:00</td><td>Intro</td><td>You still own the code — Prompt, Render, Debug</td></tr>
+      <tr><td>2</td><td>opener-meme</td><td>1:30</td><td>Laugh</td><td>AI everywhere — how do we keep control?</td></tr>
+      <tr><td>3</td><td>evolution</td><td>2:00</td><td>▶ Video</td><td>Generation got fast first</td></tr>
+      <tr><td>4</td><td>debug-evolution</td><td>3:30</td><td>▶ Video</td><td>Agent sees real Chrome, not console.log</td></tr>
+      <tr><td>5</td><td>talk-overview</td><td>5:00</td><td>3 pillars</td><td>Most time on Debug — agents were blind</td></tr>
+      <tr><td>6</td><td>devtools-mcp-intro</td><td>6:00</td><td>▶ Video + talk track</td><td>Open-source MCP · real Chrome locally</td></tr>
+      <tr><td>7</td><td>devtools-mcp-capabilities</td><td>8:00</td><td>Tool groups</td><td>Hands and eyes inside Chrome</td></tr>
+      <tr><td>8</td><td>devtools-mcp-setup</td><td>9:30</td><td>3 setup steps</td><td>MCP config + remote debugging 9222</td></tr>
+      <tr><td>9</td><td>devtools-mcp-config</td><td>12:00</td><td>Brief</td><td>--autoConnect only · skip rest</td></tr>
+      <tr><td>10</td><td>demo-form</td><td>13:00</td><td>Show form</td><td>Live target on localhost</td></tr>
+      <tr><td>11</td><td>demo-video</td><td>13:30</td><td>▶ Video</td><td>Real DOM — not hallucination</td></tr>
+      <tr><td>12</td><td>emulate-capabilities</td><td>16:00</td><td>Near Me</td><td>emulate() · Berlin → Paris</td></tr>
+      <tr><td>13</td><td>emulate-video</td><td>18:00</td><td>▶ Video</td><td>Geolocation API live</td></tr>
+      <tr><td>14</td><td>emulate-devices</td><td>20:00</td><td>Responsive</td><td>Search bar hid Sign in on tablet</td></tr>
+      <tr><td>15</td><td>emulate-devices-video</td><td>21:30</td><td>▶ Video</td><td>Observes — doesn't speculate</td></tr>
+      <tr><td>16</td><td>performance-capabilities</td><td>23:30</td><td>Explain</td><td>performance_trace · memory snapshot</td></tr>
+      <tr><td>17</td><td>performance-video</td><td>24:30</td><td>▶ Video</td><td>LCP on suchitra-swain.web.app</td></tr>
+      <tr><td>18</td><td>debugging-capabilities</td><td>26:30</td><td>Explain</td><td>Lighthouse + screenshot</td></tr>
+      <tr><td>19</td><td>debugging-video</td><td>27:30</td><td>▶ Video</td><td>Perf · A11y · BP · SEO scores</td></tr>
+      <tr><td>20</td><td>webmcp</td><td>29:30</td><td>Future</td><td>Sites expose tools to agents</td></tr>
+      <tr><td>21</td><td>webmcp-flags</td><td>30:30</td><td>Brief</td><td>Two chrome://flags · experimental</td></tr>
+      <tr><td>22</td><td>thank-you</td><td>31:00</td><td>Q&A</td><td>GitHub MCP link · LinkedIn QR</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>

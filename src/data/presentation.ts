@@ -210,24 +210,72 @@ export const devToolsMcpSetup = {
 
 export const devToolsMcpConfigOptions = {
   left: [
-    "--autoConnect",
-    "--browserUrl",
-    "--wsEndpoint",
-    "--wsHeaders",
-    "--headless",
-    "--executablePath",
-    "--isolated",
-    "--userDataDir",
+    {
+      flag: "--autoConnect",
+      description: "Connect to your already-open Chrome after you allow in the dialog.",
+    },
+    {
+      flag: "--browserUrl",
+      description: "Point MCP at a debug port, e.g. http://127.0.0.1:9222.",
+    },
+    {
+      flag: "--wsEndpoint",
+      description: "Connect via WebSocket debugger URL instead of HTTP.",
+    },
+    {
+      flag: "--wsHeaders",
+      description: "Add auth headers for WebSocket connections (JSON).",
+    },
+    {
+      flag: "--headless",
+      description: "Run Chrome without a visible browser window.",
+    },
+    {
+      flag: "--executablePath",
+      description: "Use a custom Chrome binary path.",
+    },
+    {
+      flag: "--isolated",
+      description: "Temp profile — cleaned up when the browser closes.",
+    },
+    {
+      flag: "--userDataDir",
+      description: "Set profile directory — keeps logins and cookies.",
+    },
   ],
   right: [
-    "--channel",
-    "--logFile",
-    "--viewport",
-    "--categoryEmulation",
-    "--categoryPerformance",
-    "--categoryNetwork",
-    "--performanceCrux",
-    "--slim",
+    {
+      flag: "--channel",
+      description: "Pick Chrome channel: stable, beta, dev, or canary.",
+    },
+    {
+      flag: "--logFile",
+      description: "Write MCP debug logs to a file.",
+    },
+    {
+      flag: "--viewport",
+      description: "Set starting browser size, e.g. 1280x720.",
+    },
+    {
+      flag: "--categoryEmulation",
+      description: "Enable or disable emulate and viewport tools.",
+    },
+    {
+      flag: "--categoryPerformance",
+      description: "Enable or disable performance and memory tools.",
+    },
+    {
+      flag: "--categoryNetwork",
+      description: "Enable or disable network inspection tools.",
+    },
+    {
+      flag: "--performanceCrux",
+      description: "Fetch real-user CrUX data for traced URLs.",
+    },
+    {
+      flag: "--slim",
+      description: "Expose only 3 core tools — lighter, faster agents.",
+    },
   ],
 } as const
 
