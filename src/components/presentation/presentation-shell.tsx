@@ -11,8 +11,6 @@ import { DemoVideoSlide } from "./slides/demo-video-slide"
 import {
   DebuggingCapabilitiesSlide,
   DebuggingVideoSlide,
-  NetworkCapabilitiesSlide,
-  NetworkVideoSlide,
   PerformanceCapabilitiesSlide,
   PerformanceVideoSlide,
 } from "./slides/mcp-feature-slides"
@@ -88,16 +86,6 @@ const slides = [
     id: "performance-video",
     label: "Performance Demo",
     component: PerformanceVideoSlide,
-  },
-  {
-    id: "network-capabilities",
-    label: "Network",
-    component: NetworkCapabilitiesSlide,
-  },
-  {
-    id: "network-video",
-    label: "Network Demo",
-    component: NetworkVideoSlide,
   },
   {
     id: "debugging-capabilities",

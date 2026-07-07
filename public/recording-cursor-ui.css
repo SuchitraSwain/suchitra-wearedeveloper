@@ -822,8 +822,19 @@
 .demo-frame {
   flex: 1;
   width: 100%;
+  min-height: 0;
   border: 0;
-  background: #fff;
+  background: #0f0f0f;
+}
+
+.live-chrome-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center top;
+  background: #0f0f0f;
 }
 
 /* DevTools Sensors drawer (emulate demo) */
@@ -1106,6 +1117,14 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
+  background: #0f0f0f;
+}
+
+.chrome-frame-wrap .live-chrome-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .perf-bars {

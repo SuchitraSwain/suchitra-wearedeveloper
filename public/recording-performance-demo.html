@@ -21,6 +21,7 @@
           <div class="file-tree">
             <div class="file-item"><span class="file-icon">▾</span> wearedevelopers-presentation</div>
             <div class="file-item nested active"><span class="file-icon">{ }</span> mcp.json</div>
+            <div class="file-item nested"><span class="file-icon">◉</span> suchitra-swain.web.app</div>
           </div>
         </aside>
         <section class="browser-panel">
@@ -32,22 +33,17 @@
             <div class="chrome-window" id="chrome-window">
               <div class="chrome-toolbar">
                 <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
-                <div class="tab" id="browser-tab-label">Demo Form · localhost</div>
-                <div id="url-bar" class="url-bar">http://localhost:5173/?slide=demo-form</div>
+                <div class="tab" id="browser-tab-label">suchitra-swain.web.app</div>
+                <div id="url-bar" class="url-bar">https://suchitra-swain.web.app/</div>
               </div>
-              <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Demo form"></iframe>
-              <div id="devtools-drawer" class="devtools-drawer" aria-hidden="true">
-                <div class="devtools-drawer-tabs">
-                  <span>Console</span><span>Network</span><span class="active">Performance</span>
-                </div>
-                <div class="devtools-drawer-body">
-                  <div class="devtools-drawer-label">CPU timeline</div>
-                  <div class="perf-bars" id="perf-bars">
-                    <span></span><span></span><span></span><span></span><span></span><span></span>
-                  </div>
-                  <div class="devtools-field"><label>Trace duration</label><span id="metric-trace" class="flash-target">847 ms</span></div>
-                  <div class="devtools-field"><label>Heap snapshot</label><span id="metric-heap" class="flash-target">24.3 MB</span></div>
-                </div>
+              <div class="chrome-frame-wrap">
+                <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Live Chrome" style="display: none"></iframe>
+                <img
+                  id="live-screenshot"
+                  class="demo-frame live-chrome-shot"
+                  alt="Live Chrome tab with DevTools Performance panel"
+                  style="display: none"
+                />
               </div>
             </div>
           </div>
@@ -68,14 +64,17 @@
     <script src="/recording-cursor-ui.js"></script>
     <script>
       createCursorRecordingUI({
-        userPrompt: "Profile the demo registration form — run performance_trace while I submit, then take_memory_snapshot and summarize bottlenecks.",
-        thinkingText: "Connect via MCP, record a performance trace on form interaction, capture heap snapshot, summarize CPU and memory findings.",
-        agentIntroMessage: "I'll trace CPU on the live demo form, capture a memory snapshot, and summarize performance findings.",
-        chromeUrl: "http://localhost:5173/?slide=demo-form",
-        frameUrl: "/?slide=demo-form&embed=form",
+        userPrompt:
+          "Profile https://suchitra-swain.web.app/ — run performance_trace on page load, then take_memory_snapshot and summarize bottlenecks.",
+        thinkingText:
+          "Connect via MCP, open the live portfolio in Chrome, record a real DevTools performance trace, capture heap snapshot, summarize CPU and memory findings.",
+        agentIntroMessage:
+          "I'll trace CPU on your live portfolio in real Chrome, capture a memory snapshot, and summarize performance findings from DevTools.",
+        chromeUrl: "https://suchitra-swain.web.app/",
+        frameUrl: "about:blank",
         browserUrl: "http://127.0.0.1:9223",
-        browserTab: "Demo Form · localhost",
-        projectFile: "performance",
+        browserTab: "suchitra-swain.web.app",
+        projectFile: "portfolio",
       })
     </script>
   </body>

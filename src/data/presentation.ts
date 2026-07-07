@@ -294,18 +294,19 @@ export const performanceCapabilitiesSlide = {
 export const performanceVideoSlide = {
   label: "Performance demo",
   title: "Performance trace · live replay",
-  subtitle: "Agent records a trace on the demo form and captures a memory snapshot.",
+  subtitle:
+    "Real Chrome DevTools Performance panel on suchitra-swain.web.app — record, reload, inspect LCP.",
   steps: [
     "1 · MCP connects to Chrome on port 9223",
-    "2 · performance_trace() · CPU timeline in DevTools",
-    "3 · take_memory_snapshot() · heap captured",
-    "4 · Agent summarizes findings · task complete",
+    "2 · performance_trace() · record + reload in DevTools",
+    "3 · CPU timeline + LCP insights in Performance panel",
+    "4 · take_memory_snapshot() · heap captured from live tab",
   ],
   video: {
     src: "/devtools-performance-demo.webm",
     poster: "/devtools-performance-demo-poster.png",
     caption:
-      "Cursor Agent → performance_trace + take_memory_snapshot on live registration form.",
+      "Real Chrome DevTools Performance trace on suchitra-swain.web.app — not a mock UI.",
   },
 } as const
 
@@ -359,18 +360,19 @@ export const debuggingCapabilitiesSlide = {
 export const debuggingVideoSlide = {
   label: "Debugging demo",
   title: "Lighthouse audit · live replay",
-  subtitle: "Agent runs Lighthouse and captures a screenshot on suchitra-swain.web.app.",
+  subtitle:
+    "Real Chrome DevTools Lighthouse on suchitra-swain.web.app — audit scores and screenshot.",
   steps: [
-    "1 · navigate_page to live portfolio",
-    "2 · lighthouse_audit() · scores in DevTools",
+    "1 · MCP connects to Chrome on port 9223",
+    "2 · lighthouse_audit() · Perf · A11y · BP · SEO in DevTools",
     "3 · take_screenshot() · viewport captured",
-    "4 · Agent summarizes audit · task complete",
+    "4 · Agent summarizes scores and recommendations",
   ],
   video: {
     src: "/devtools-debugging-demo.webm",
     poster: "/devtools-debugging-demo-poster.png",
     caption:
-      "Cursor Agent → lighthouse_audit + take_screenshot on suchitra-swain.web.app.",
+      "Real Chrome DevTools Lighthouse audit on suchitra-swain.web.app — not a mock UI.",
   },
 } as const
 

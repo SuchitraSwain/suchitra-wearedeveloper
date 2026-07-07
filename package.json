@@ -19,9 +19,9 @@
     "record:emulate-devices": "node scripts/record-emulate-devices-demo.mjs",
     "record:evolution": "node scripts/record-evolution-demo.mjs",
     "record:debug-evolution": "node scripts/record-debug-evolution-demo.mjs",
-    "record:performance": "node scripts/record-mcp-feature-demo.mjs performance",
+    "record:performance": "node scripts/record-performance-demo.mjs",
     "record:network": "node scripts/record-mcp-feature-demo.mjs network",
-    "record:debugging": "node scripts/record-mcp-feature-demo.mjs debugging",
+    "record:debugging": "node scripts/record-debugging-demo.mjs",
     "clip:devtools-mcp-intro": "node scripts/clip-devtools-mcp-intro.mjs",
     "record:devtools-mcp-intro": "node scripts/record-devtools-mcp-intro.mjs",
     "capture:webmcp-screenshots": "node scripts/capture-webmcp-screenshots.mjs"

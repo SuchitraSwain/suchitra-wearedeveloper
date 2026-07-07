@@ -13,9 +13,16 @@
       </header>
       <div class="ide-workspace">
         <nav class="ide-activity-bar" aria-hidden="true">
-          <span class="activity-icon active">◇</span><span class="activity-spacer"></span>
+          <span class="activity-icon">⌂</span><span class="activity-icon active">◇</span><span class="activity-spacer"></span>
         </nav>
-        <aside class="ide-sidebar"><div class="sidebar-header">Explorer</div></aside>
+        <aside class="ide-sidebar">
+          <div class="sidebar-header">Explorer</div>
+          <div class="file-tree">
+            <div class="file-item"><span class="file-icon">▾</span> wearedevelopers-presentation</div>
+            <div class="file-item nested active"><span class="file-icon">{ }</span> mcp.json</div>
+            <div class="file-item nested"><span class="file-icon">◉</span> suchitra-swain.web.app</div>
+          </div>
+        </aside>
         <section class="browser-panel">
           <div class="browser-panel-header">
             <span class="browser-panel-title">Chrome · controlled by MCP</span>
@@ -25,23 +32,17 @@
             <div class="chrome-window" id="chrome-window">
               <div class="chrome-toolbar">
                 <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
-                <div class="tab" id="browser-tab-label">Portfolio · suchitra-swain.web.app</div>
+                <div class="tab" id="browser-tab-label">suchitra-swain.web.app</div>
                 <div id="url-bar" class="url-bar">https://suchitra-swain.web.app/</div>
               </div>
-              <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Portfolio"></iframe>
-              <div id="devtools-drawer" class="devtools-drawer" aria-hidden="true">
-                <div class="devtools-drawer-tabs">
-                  <span>Console</span><span class="active">Lighthouse</span>
-                </div>
-                <div class="devtools-drawer-body">
-                  <div class="lh-scores">
-                    <div class="lh-score"><strong id="lh-perf">92</strong><span>Perf</span></div>
-                    <div class="lh-score"><strong>96</strong><span>A11y</span></div>
-                    <div class="lh-score"><strong>88</strong><span>BP</span></div>
-                    <div class="lh-score"><strong>91</strong><span>SEO</span></div>
-                  </div>
-                  <div class="devtools-field"><label>Screenshot</label><span id="metric-screenshot" class="flash-target">viewport.png captured</span></div>
-                </div>
+              <div class="chrome-frame-wrap">
+                <iframe id="demo-frame" class="demo-frame" src="about:blank" title="Live Chrome" style="display: none"></iframe>
+                <img
+                  id="live-screenshot"
+                  class="demo-frame live-chrome-shot"
+                  alt="Live Chrome tab with DevTools Lighthouse panel"
+                  style="display: none"
+                />
               </div>
             </div>
           </div>
@@ -49,22 +50,30 @@
           <div id="chrome-caption" class="chrome-caption"></div>
         </section>
         <aside class="agent-panel">
+          <div class="agent-header"><div class="agent-header-title">Chat <span class="agent-header-badge">Agent</span></div></div>
           <div id="cursor-thread" class="cursor-thread"></div>
-          <div class="cursor-composer"><div id="composer-text" class="composer-text cursor-blink"></div></div>
+          <div class="cursor-composer">
+            <div class="composer-toolbar"><div class="composer-mode"><span class="composer-mode-pill">Agent</span></div></div>
+            <div class="composer-box"><div id="composer-text" class="composer-text cursor-blink"></div></div>
+          </div>
         </aside>
       </div>
-      <footer class="ide-statusbar"><div class="status-right" id="chrome-connect-status"></div></footer>
+      <footer class="ide-statusbar"><div class="status-right" id="chrome-connect-status"><span class="status-item">MCP · connecting…</span></div></footer>
     </div>
     <script src="/recording-cursor-ui.js"></script>
     <script>
       createCursorRecordingUI({
-        userPrompt: "Audit https://suchitra-swain.web.app/ — run lighthouse_audit and take_screenshot, then summarize scores and issues.",
-        agentIntroMessage: "I'll run Lighthouse on your live portfolio and capture a screenshot for the audit report.",
+        userPrompt:
+          "Audit https://suchitra-swain.web.app/ — run lighthouse_audit and take_screenshot, then summarize scores and issues.",
+        thinkingText:
+          "Connect via MCP, open the live portfolio in Chrome, run a real Lighthouse audit in DevTools, capture a viewport screenshot, and summarize findings.",
+        agentIntroMessage:
+          "I'll run Lighthouse on your live portfolio in real Chrome, capture a screenshot, and summarize the audit scores.",
         chromeUrl: "https://suchitra-swain.web.app/",
-        frameUrl: "https://suchitra-swain.web.app/",
+        frameUrl: "about:blank",
         browserUrl: "http://127.0.0.1:9223",
-        browserTab: "Portfolio · suchitra-swain.web.app",
-        projectFile: "debugging",
+        browserTab: "suchitra-swain.web.app",
+        projectFile: "portfolio",
       })
     </script>
   </body>
