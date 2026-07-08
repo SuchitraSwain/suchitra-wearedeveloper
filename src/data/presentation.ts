@@ -121,7 +121,8 @@ export const devToolsMcpIntroSlide = {
   video: {
     src: "/devtools-mcp-intro-demo.webm",
     poster: "/devtools-mcp-intro-demo-poster.png",
-    caption: "Chrome DevTools MCP — what it is & how to set it up (0:25–0:41)",
+    caption:
+      "Chrome DevTools MCP — what it is & how to set it up (0:25–0:41 · 2:09–2:34)",
   },
 } as const
 
