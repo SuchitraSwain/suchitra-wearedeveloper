@@ -40,9 +40,9 @@ const memeSlides = openerMemes.map((meme, index) => ({
 const slides = [
   { id: "about-me", label: "About", component: AboutMeSlide },
   ...memeSlides,
+  { id: "talk-overview", label: "Overview", component: TalkOverviewSlide },
   { id: "evolution", label: "Evolution", component: EvolutionSlide },
   { id: "debug-evolution", label: "Debug Evolution", component: DebugEvolutionSlide },
-  { id: "talk-overview", label: "Overview", component: TalkOverviewSlide },
   { id: "devtools-mcp-intro", label: "DevTools MCP", component: DevToolsMcpIntroSlide },
   {
     id: "devtools-mcp-capabilities",
