@@ -146,6 +146,13 @@ export function PresentationShell() {
   }, [])
 
   useEffect(() => {
+    openerMemes.forEach((meme) => {
+      const img = new Image()
+      img.src = meme.src
+    })
+  }, [])
+
+  useEffect(() => {
     const slideId = slides[currentSlide]?.id
     if (!slideId) {
       return

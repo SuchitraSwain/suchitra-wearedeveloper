@@ -15,6 +15,10 @@ export function MemeSlide({ meme }: MemeSlideProps) {
             <img
               src={meme.src}
               alt={meme.alt}
+              width={720}
+              height={720}
+              fetchPriority="high"
+              decoding="async"
               className="mx-auto max-h-[min(68vh,680px)] w-full object-contain"
             />
           </div>

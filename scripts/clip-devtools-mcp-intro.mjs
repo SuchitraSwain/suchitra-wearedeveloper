@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process"
-import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, rmSync } from "node:fs"
 import { join } from "node:path"
 
 function findBinary(name, fallbacks) {
@@ -28,16 +28,10 @@ const publicDir = join(process.cwd(), "public")
 const workDir = join(publicDir, ".recordings", "devtools-mcp-intro")
 const sourceVideo = join(workDir, "source.mp4")
 const segment1 = join(workDir, "segment-1.mp4")
-const segment2 = join(workDir, "segment-2.mp4")
-const concatList = join(workDir, "concat.txt")
-const mergedVideo = join(workDir, "merged.mp4")
 const videoOut = join(publicDir, "devtools-mcp-intro-demo.webm")
 const posterOut = join(publicDir, "devtools-mcp-intro-demo-poster.png")
 
-const segments = [
-  { start: "00:00:25", end: "00:00:41", out: segment1 },
-  { start: "00:02:09", end: "00:02:34", out: segment2 },
-]
+const segments = [{ start: "00:00:25", end: "00:00:41", out: segment1 }]
 
 function run(command, args) {
   const result = spawnSync(command, args, { stdio: "inherit" })
@@ -53,7 +47,7 @@ if (process.argv.includes("--force-download") && existsSync(sourceVideo)) {
 }
 
 if (!existsSync(sourceVideo)) {
-  console.log("Downloading 1080p source video…")
+  console.log("Downloading source video…")
   run(YT_DLP, [
     "-f",
     "96/bestvideo[height<=1080]+bestaudio/best",
@@ -89,31 +83,11 @@ for (const segment of segments) {
   ])
 }
 
-writeFileSync(
-  concatList,
-  segments.map((segment) => `file '${segment.out}'`).join("\n"),
-  "utf8"
-)
-
-console.log("Merging segments…")
-run(FFMPEG, [
-  "-y",
-  "-f",
-  "concat",
-  "-safe",
-  "0",
-  "-i",
-  concatList,
-  "-c",
-  "copy",
-  mergedVideo,
-])
-
 console.log("Encoding webm…")
 run(FFMPEG, [
   "-y",
   "-i",
-  mergedVideo,
+  segment1,
   "-c:v",
   "libvpx-vp9",
   "-crf",

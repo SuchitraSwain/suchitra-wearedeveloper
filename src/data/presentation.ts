@@ -8,7 +8,7 @@ export const presentationMeta = {
 
 export const openerMemes = [
   {
-    src: "/memes/ai-everywhere.png",
+    src: "/memes/ai-everywhere.jpg",
     alt: "Buzz Lightyear pointing — Look Woody, AI everywhere",
     caption: "Look, Woody… AI everywhere",
   },
@@ -121,8 +121,7 @@ export const devToolsMcpIntroSlide = {
   video: {
     src: "/devtools-mcp-intro-demo.webm",
     poster: "/devtools-mcp-intro-demo-poster.png",
-    caption:
-      "Chrome DevTools MCP — what it is & how to set it up (0:25–0:41 · 2:09–2:34)",
+    caption: "Chrome DevTools MCP — what it is & how to set it up (0:25–0:41)",
   },
 } as const
 
@@ -436,7 +435,6 @@ export const emulateCapabilitiesSlide = {
   talkTrack: [
     "Emulation in DevTools MCP covers viewport, user agent, location, CPU throttling, and network speed — so your agent tests like a real user.",
     "Use case one: Near Me — delivery zones, store locators, local currency. Same as the Sensors panel, but your agent drives it.",
-    "Prompt: search Berlin, confirm no store in Washington, emulate Paris, verify stores appear — all autonomously.",
     "Add 'fix all bugs you encounter' for a closed feedback loop — test and fix without manual resizing.",
   ],
   sensorsNote:
@@ -476,7 +474,6 @@ export const emulateDevicesSlide = {
   talkTrack: [
     "Use case two: responsive navigation — burger menu on mobile, full nav on desktop. Let the agent compare links across viewports.",
     "Use case three: interaction bugs — things break only when you actually use them, not just by looking.",
-    "Example: on mobile, tablet, and desktop — type in search and check Sign in stays visible. On tablet and mobile, the expanding search bar hid it.",
     "Navigation + input automation + emulation + screenshots — fully automated cross-viewport testing.",
   ],
   prompts: [
