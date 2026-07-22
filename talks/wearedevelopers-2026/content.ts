@@ -23,7 +23,7 @@ export const presentationMeta: {
 
 export const openerMemes = [
   {
-    src: "/memes/ai-debugging.jpg",
+    src: "/memes/ai-debugging.png",
     alt: "Without AI 3 hours, with AI 3 minutes, debugging still 3 hours",
     caption: "AI writes the code fast — debugging is still the hard part.",
   },
