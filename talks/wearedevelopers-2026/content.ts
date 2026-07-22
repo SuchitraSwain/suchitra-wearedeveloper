@@ -1,21 +1,25 @@
-export const presentationMeta = {
+type EventBanner = {
+  logo?: string
+  logoAlt?: string
+  label?: string
+  location?: string
+}
+
+export const presentationMeta: {
+  event: string
+  year: string
+  location: string
+  dates: string
+  venue: string
+  banner?: EventBanner
+} = {
   event: "Prompt, Render, Debug",
   year: "2026",
   location: "Berlin",
   dates: "",
   venue: "",
-  /**
-   * Optional event chrome on the About slide.
-   * Omit for a global/portable deck (no conference logo or city badge).
-   * Example for a specific conference:
-   * banner: {
-   *   logo: "/wearedevelopers-logo.svg",
-   *   logoAlt: "WeAreDevelopers",
-   *   label: "World Congress · 2026",
-   *   location: "Berlin, Germany",
-   * },
-   */
-} as const
+  // Set `banner` only when this deck is for a specific conference.
+}
 
 export const openerMemes = [
   {

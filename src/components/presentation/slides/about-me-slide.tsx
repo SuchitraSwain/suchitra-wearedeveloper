@@ -13,28 +13,30 @@ const pillarIcons = {
 } as const
 
 export function AboutMeSlide() {
+  const { banner } = presentationMeta
+
   return (
     <PresentationSlide>
-      {presentationMeta.banner ? (
+      {banner ? (
         <div className="mb-[clamp(0.75rem,1.5cqw,1.25rem)] flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2">
-          {presentationMeta.banner.logo ? (
+          {banner.logo ? (
             <>
               <img
-                src={presentationMeta.banner.logo}
-                alt={presentationMeta.banner.logoAlt ?? presentationMeta.event}
+                src={banner.logo}
+                alt={banner.logoAlt ?? presentationMeta.event}
                 className="h-[clamp(1.25rem,2.5cqw,1.75rem)] w-auto"
               />
               <div className="hidden h-4 w-px bg-white/15 sm:block" />
             </>
           ) : null}
-          {presentationMeta.banner.label ? (
+          {banner.label ? (
             <span className="slide-label-text font-medium text-white/45 sm:tracking-[0.2em]">
-              {presentationMeta.banner.label}
+              {banner.label}
             </span>
           ) : null}
-          {presentationMeta.banner.location ? (
+          {banner.location ? (
             <span className="slide-body-sm rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 font-medium text-white/55 sm:px-3 sm:py-1 md:inline">
-              {presentationMeta.banner.location}
+              {banner.location}
             </span>
           ) : null}
         </div>
