@@ -8,6 +8,13 @@ export const presentationMeta = {
   location: "City, Country",
   dates: "Date",
   venue: "Venue",
+  // Optional About-slide event chrome (logo / label / city). Leave unset for a global deck.
+  // banner: {
+  //   logo: "/your-logo.svg",
+  //   logoAlt: "Conference",
+  //   label: "Conference · 2026",
+  //   location: "City, Country",
+  // },
 }
 
 export const openerMemes = [

@@ -1,7 +1,7 @@
 export const talkConfig = {
   id: "wearedevelopers-2026",
   name: "Prompt, Render, Debug",
-  event: "WeAreDevelopers World Congress 2026",
+  event: "AI-Powered React Development with Chrome DevTools",
   /** Ordered list of slide IDs from the shared slide registry */
   slides: [
     "about-me",

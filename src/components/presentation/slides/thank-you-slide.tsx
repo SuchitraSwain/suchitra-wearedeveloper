@@ -1,7 +1,7 @@
 import { ExternalLink, Heart } from "lucide-react"
 import QRCode from "react-qr-code"
 
-import { presentationMeta, speaker, thankYouSlide } from "@/data/presentation"
+import { talkConfig, speaker, thankYouSlide } from "@/data/presentation"
 
 import { PresentationSlide } from "../presentation-slide"
 import { SlideLabel } from "../slide-label"
@@ -11,9 +11,7 @@ export function ThankYouSlide() {
     <PresentationSlide>
       <div className="slide-page-center">
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-2 py-2 text-center">
-          <SlideLabel className="mb-4">
-            WeAreDevelopers World Congress {presentationMeta.year}
-          </SlideLabel>
+          <SlideLabel className="mb-4">{talkConfig.event}</SlideLabel>
 
           <h1 className="text-[clamp(3rem,7vw,5rem)] font-bold tracking-tight text-white">
             {thankYouSlide.headline}

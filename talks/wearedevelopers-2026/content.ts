@@ -1,10 +1,21 @@
 export const presentationMeta = {
-  event: "WeAreDevelopers World Congress",
+  event: "Prompt, Render, Debug",
   year: "2026",
-  location: "Berlin, Germany",
-  dates: "8–10 July 2026",
-  venue: "CityCube Berlin",
-}
+  location: "Berlin",
+  dates: "",
+  venue: "",
+  /**
+   * Optional event chrome on the About slide.
+   * Omit for a global/portable deck (no conference logo or city badge).
+   * Example for a specific conference:
+   * banner: {
+   *   logo: "/wearedevelopers-logo.svg",
+   *   logoAlt: "WeAreDevelopers",
+   *   label: "World Congress · 2026",
+   *   location: "Berlin, Germany",
+   * },
+   */
+} as const
 
 export const openerMemes = [
   {
@@ -557,6 +568,6 @@ export const thankYouSlide = {
   linkedin: "https://www.linkedin.com/in/suchitra-swain-47562ab7/",
   links: [
     { label: "Chrome DevTools MCP", url: "https://github.com/ChromeDevTools/chrome-devtools-mcp" },
-    { label: "WeAreDevelopers", url: "https://www.wearedevelopers.com/world-congress" },
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/suchitra-swain-47562ab7/" },
   ],
 }

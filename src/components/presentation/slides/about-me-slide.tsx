@@ -15,20 +15,30 @@ const pillarIcons = {
 export function AboutMeSlide() {
   return (
     <PresentationSlide>
-      <div className="mb-[clamp(0.75rem,1.5cqw,1.25rem)] flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2">
-        <img
-          src="/wearedevelopers-logo.svg"
-          alt="WeAreDevelopers"
-          className="h-[clamp(1.25rem,2.5cqw,1.75rem)] w-auto"
-        />
-        <div className="hidden h-4 w-px bg-white/15 sm:block" />
-        <span className="slide-label-text font-medium text-white/45 sm:tracking-[0.2em]">
-          World Congress · {presentationMeta.year}
-        </span>
-        <span className="slide-body-sm rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 font-medium text-white/55 sm:px-3 sm:py-1 md:inline">
-          {presentationMeta.location}
-        </span>
-      </div>
+      {presentationMeta.banner ? (
+        <div className="mb-[clamp(0.75rem,1.5cqw,1.25rem)] flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2">
+          {presentationMeta.banner.logo ? (
+            <>
+              <img
+                src={presentationMeta.banner.logo}
+                alt={presentationMeta.banner.logoAlt ?? presentationMeta.event}
+                className="h-[clamp(1.25rem,2.5cqw,1.75rem)] w-auto"
+              />
+              <div className="hidden h-4 w-px bg-white/15 sm:block" />
+            </>
+          ) : null}
+          {presentationMeta.banner.label ? (
+            <span className="slide-label-text font-medium text-white/45 sm:tracking-[0.2em]">
+              {presentationMeta.banner.label}
+            </span>
+          ) : null}
+          {presentationMeta.banner.location ? (
+            <span className="slide-body-sm rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 font-medium text-white/55 sm:px-3 sm:py-1 md:inline">
+              {presentationMeta.banner.location}
+            </span>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="grid min-h-0 flex-1 items-start gap-[clamp(1rem,2.5cqw,2rem)] lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div className="flex min-h-0 flex-col justify-center gap-[clamp(0.85rem,1.8cqw,1.35rem)]">
