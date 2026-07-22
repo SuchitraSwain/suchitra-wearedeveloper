@@ -23,9 +23,9 @@ export const presentationMeta: {
 
 export const openerMemes = [
   {
-    src: "/memes/ai-everywhere.jpg",
-    alt: "Buzz Lightyear pointing — Look Woody, AI everywhere",
-    caption: "Look, Woody… AI everywhere",
+    src: "/memes/ai-debugging.jpg",
+    alt: "Without AI 3 hours, with AI 3 minutes, debugging still 3 hours",
+    caption: "AI writes the code fast — debugging is still the hard part.",
   },
 ] as const
 
