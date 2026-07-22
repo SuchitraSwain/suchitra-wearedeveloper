@@ -4,6 +4,18 @@ import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
 import { defineConfig, type Plugin } from "vite"
 
+const talkId = process.env.VITE_TALK || "wearedevelopers-2026"
+const talkDir = path.resolve(__dirname, "talks", talkId)
+
+if (!fs.existsSync(talkDir)) {
+  throw new Error(
+    `Talk pack not found: talks/${talkId}\n` +
+      `Create it with: cp -R talks/_template talks/${talkId}`
+  )
+}
+
+console.info(`[vite] Active talk: ${talkId}`)
+
 /** Playwright temp files live under public/.recordings but must not ship in dist. */
 function excludePublicRecordings(): Plugin {
   const recordingsPath = path.resolve(__dirname, "public/.recordings")
@@ -39,6 +51,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@talk": talkDir,
     },
   },
 })

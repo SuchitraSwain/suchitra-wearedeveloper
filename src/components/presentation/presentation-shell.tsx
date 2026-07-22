@@ -3,104 +3,12 @@ import { ChevronLeft, ChevronRight, Maximize2, Minimize2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { openerMemes, talkConfig } from "@/data/presentation"
+import { buildSlidesFromIds } from "@/talks/slide-registry"
 
 import { AboutMeSlide } from "./slides/about-me-slide"
-import { createMemeSlideComponent } from "./slides/meme-slides"
-import { DemoFormSlide } from "./slides/demo-form-slide"
-import { DemoVideoSlide } from "./slides/demo-video-slide"
-import {
-  DebuggingCapabilitiesSlide,
-  DebuggingVideoSlide,
-  PerformanceCapabilitiesSlide,
-  PerformanceVideoSlide,
-} from "./slides/mcp-feature-slides"
-import { EmulateCapabilitiesSlide } from "./slides/emulate-capabilities-slide"
-import { EmulateDevicesSlide } from "./slides/emulate-devices-slide"
-import { EmulateDevicesVideoSlide } from "./slides/emulate-devices-video-slide"
-import { EmulateVideoSlide } from "./slides/emulate-video-slide"
-import {
-  DevToolsMcpCapabilitiesSlide,
-  DevToolsMcpIntroSlide,
-} from "./slides/devtools-mcp-slides"
-import { DevToolsMcpConfigSlide } from "./slides/devtools-mcp-config-slide"
-import { DevToolsMcpSetupSlide } from "./slides/devtools-mcp-setup-slide"
-import { DebugEvolutionSlide } from "./slides/debug-evolution-slide"
-import { EvolutionSlide } from "./slides/evolution-slide"
-import { TalkOverviewSlide } from "./slides/talk-overview-slide"
-import { ThankYouSlide } from "./slides/thank-you-slide"
-import { WebMcpFlagsSlide, WebMcpSlide } from "./slides/webmcp-slide"
-import { openerMemes } from "@/data/presentation"
 
-const memeSlides = openerMemes.map((meme, index) => ({
-  id: `opener-meme-${index}`,
-  label: index === 0 ? "Opener" : `Meme ${index + 1}`,
-  component: createMemeSlideComponent(meme),
-}))
-
-const slides = [
-  { id: "about-me", label: "About", component: AboutMeSlide },
-  { id: "talk-overview", label: "Overview", component: TalkOverviewSlide },
-  ...memeSlides,
-  { id: "evolution", label: "Evolution", component: EvolutionSlide },
-  { id: "debug-evolution", label: "Debug Evolution", component: DebugEvolutionSlide },
-  { id: "devtools-mcp-intro", label: "DevTools MCP", component: DevToolsMcpIntroSlide },
-  {
-    id: "devtools-mcp-capabilities",
-    label: "MCP Tools",
-    component: DevToolsMcpCapabilitiesSlide,
-  },
-  { id: "devtools-mcp-setup", label: "Setup", component: DevToolsMcpSetupSlide },
-  {
-    id: "devtools-mcp-config",
-    label: "Config",
-    component: DevToolsMcpConfigSlide,
-  },
-  { id: "demo-form", label: "Demo Form", component: DemoFormSlide },
-  { id: "demo-video", label: "Demo Video", component: DemoVideoSlide },
-  {
-    id: "emulate-capabilities",
-    label: "Location",
-    component: EmulateCapabilitiesSlide,
-  },
-  {
-    id: "emulate-video",
-    label: "Location Demo",
-    component: EmulateVideoSlide,
-  },
-  {
-    id: "emulate-devices",
-    label: "Emulate",
-    component: EmulateDevicesSlide,
-  },
-  {
-    id: "emulate-devices-video",
-    label: "Emulate Demo",
-    component: EmulateDevicesVideoSlide,
-  },
-  {
-    id: "performance-capabilities",
-    label: "Performance",
-    component: PerformanceCapabilitiesSlide,
-  },
-  {
-    id: "performance-video",
-    label: "Performance Demo",
-    component: PerformanceVideoSlide,
-  },
-  {
-    id: "debugging-capabilities",
-    label: "Debugging",
-    component: DebuggingCapabilitiesSlide,
-  },
-  {
-    id: "debugging-video",
-    label: "Debugging Demo",
-    component: DebuggingVideoSlide,
-  },
-  { id: "webmcp", label: "WebMCP", component: WebMcpSlide },
-  { id: "webmcp-flags", label: "WebMCP Flags", component: WebMcpFlagsSlide },
-  { id: "thank-you", label: "Thank you", component: ThankYouSlide },
-]
+const slides = buildSlidesFromIds(talkConfig.slides)
 
 function getSlideIndexFromUrl() {
   const slideParam = new URLSearchParams(window.location.search).get("slide")

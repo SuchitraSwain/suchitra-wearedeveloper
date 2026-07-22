@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "suchitra-wearedeveloper",
+    "site": "suchitra-presentation",
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
